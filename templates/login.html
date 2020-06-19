@@ -12,60 +12,52 @@
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<link rel="shortcut icon" href="{{ url_for( 'static', filename='images/shopping.ico') }}" />
-
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
 			<div id="wrapper">
 
-
 				<!-- Header -->
 					<header id="header">
 						<div class="inner">
+
 							<!-- Logo -->
 								<a href="/" class="logo">
 									<span class="symbol"><img src="{{ url_for('static', filename='images/poslogo.png') }}" alt="" /></span><span class="title">NOTmicroPOS</span>
 								</a>
+            </div>
+          </header>
+    <div id="main">
+      <div class="inner">
+								<section>
+									<h2>User Login</h2>
+									<form method="post" action="#">
+										<div class="row gtr-uniform">
+											<div class="col-6 col-12-xsmall">
+												<input type="text" name="user_code" id="user_code" value="" placeholder="User Code" required />
+											</div>
+											<div class="col-6 col-12-xsmall">
+												<input type="password" name="password" id="password" value="" placeholder="Password" />
+											</div>
+											<div class="col-12">
+												<ul class="actions">
+													<li><input type="submit" value="Log In" class="primary" /></li>
+													<li><input type="reset" value="Reset" class="primary" /></li>
+												</ul>
+											</div>
+										</div>
+									</form>
+								</section>
+      </div>
+    </div>
 
-							<!-- Nav -->
-							<p align="right"><sup>Logged in as *-*username*-*</sup></p>
-								<nav>
-									<ul>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
-
-						</div>
-					</header>
-
-				<!-- Menu -->
-					{% include 'navigation.html' %}
-
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-							<section>
-								{% block content %}{% endblock %}
-							</section>
-						</div>
-					</div>
-				<BR><BR><BR>
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
-
-			</div>
-
+      </div>
 		<!-- Scripts -->
 			<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/util.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 	</body>
 </html>

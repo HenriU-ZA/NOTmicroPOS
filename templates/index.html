@@ -2,6 +2,42 @@
 
 {% block content %}
     <div class="container">
-        <h1>IT WORKS</h1>
+        <div class="inner">
+					<section class="tiles">
+								<article class="style1">
+									<span class="image">
+										<img src="{{ url_for('static', filename='images/orb.png') }}" alt="" />
+									</span>
+									<a href="generic.html">
+										<h2> PURCHASE ORDER </h2>
+										<div class="content">
+											<p>Before receiving stock we need to place an order. </p>
+										</div>
+									</a>
+								</article>
+								<article class="style1">
+									<span class="image">
+										<img src="{{ url_for('static', filename='images/orb.png') }}" alt="" />
+									</span>
+									<a href="generic.html">
+										<h2>GRV</h2>
+										<div class="content">
+											<p>Before selling stock we need to reveive it. </p>
+										</div>
+									</a>
+								</article>
+								<article class="style1">
+									<span class="image">
+										<img src="{{ url_for('static', filename='images/orb.png') }}" alt="" />
+									</span>
+									<a href="generic.html">
+										<h2>NEW SALE</h2>
+										<div class="content">
+											<p>Creating a customer sale.</p>
+										</div>
+									</a>
+								</article>
+					</section>
+				</div>
     </div>
 {% endblock %}

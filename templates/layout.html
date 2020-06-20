@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Elements - Phantom by HTML5 UP</title>
+		<title>{{pg_data['title']}}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
@@ -28,7 +28,7 @@
 								</a>
 
 							<!-- Nav -->
-							<p align="right"><sup>Logged in as *-*username*-*</sup></p>
+							<p align="right"><sup>Logged in as {{pg_data['username']}} <a href="/logout">(LogOut)</a></sup></p>
 								<nav>
 									<ul>
 										<li><a href="#menu">Menu</a></li>

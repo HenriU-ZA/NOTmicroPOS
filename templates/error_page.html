@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Elements - Phantom by HTML5 UP</title>
+		<title>{{pg_data['title']}}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
@@ -30,7 +30,7 @@
     <div id="main">
       <div class="inner">
 								<section>
-									<h2>You have reched an error page. No more info is available at this time.</h2>
+									<h2>{{pg_data['optional_message']}}</h2>
 								</section>
       </div>
     </div>

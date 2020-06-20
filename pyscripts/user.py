@@ -1,4 +1,5 @@
-from database import CursorFromConnectionFromPool
+from pyscripts.database import CursorFromConnectionFromPool
+from pyscripts.refactor import encrypt_password
 
 
 class User:
@@ -34,3 +35,14 @@ class User:
                            user_code=user_data[4],
                            _id=user_data[0])
 
+    @classmethod
+    def login_user(cls, user_code, password):
+        user = User.load_from_db_by_user_code(user_code)
+        if user:
+            secure_password = encrypt_password(password)
+            if user.password == secure_password:
+                return True
+            else:
+                return False
+        else:
+            return False

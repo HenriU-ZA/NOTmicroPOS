@@ -8,11 +8,20 @@ app.secret_key ='1234jhghgahugsjn'
 
 Database.initialise(database="NOTmicroPOS", host="localhost", user="postgres", password="1234")
 
+
 @app.before_request
 def load_user():
     g.user = None
     if 'user_code' in session:
         g.user = User.load_from_db_by_user_code(session['user_code'])
+
+
+@app.errorhandler(404)
+def invalid_route(e):
+    if g.user:
+        return render_template('errors/notfound.html',
+                               pg_data=FunctionData.format_page_data('notfound', g.user.name))
+    return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -29,7 +38,7 @@ def login():
         if User.login_user(request.form['user_code'], request.form['password']):
             session['user_code'] = request.form['user_code']
             return redirect(url_for('index'))
-        return redirect(url_for('error', msg="Your login attempt failed!"))
+        return redirect(url_for('error', ptl='loginerror'))
     return render_template('login.html')
 
 
@@ -44,9 +53,9 @@ def logout():
 def test():
     return render_template('test.html', user=g.user)
 
-@app.route('/error')
-def error():
-    return render_template('error_page.html', pg_data=FunctionData.format_page_data('error', '-----', 'There was an error in your last request.'))
+@app.route('/error/<ptl>')
+def error(ptl):
+    return render_template('errors/error_page.html', pg_data=FunctionData.format_page_data(ptl, '-----'))
 
 
 app.run(port=4995, debug=True)

@@ -13,7 +13,8 @@ class User:
     def __repr__(self):
         return f"<User {self.name}>"
 
-    def save_to_db_new_user(self, name, password, account_type, user_code):
+    @classmethod
+    def save_to_db_new_user(cls, name, password, account_type, user_code):
         """This module will save a new user to the database"""
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute(
@@ -37,6 +38,7 @@ class User:
 
     @classmethod
     def login_user(cls, user_code, password):
+        """This module logs the user into the system."""
         user = User.load_from_db_by_user_code(user_code)
         if user:
             secure_password = encrypt_password(password)
@@ -46,3 +48,20 @@ class User:
                 return False
         else:
             return False
+
+    @classmethod
+    def create_new_user(cls, user_code, user_name):
+        if User.usercode_exists(user_code):
+            return f"User {user_name} with user code {user_code} was not created as the user code already exist."
+        else:
+            User.save_to_db_new_user(user_name, encrypt_password("1234"), "user", user_code)
+            return f"User {user_name} with user code {user_code} was created with password 1234!"
+
+    @classmethod
+    def usercode_exists(cls, user_code):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute('SELECT _id FROM users WHERE user_code=%s',
+                           (user_code,))
+            user_check = cursor.fetchone()
+            if user_check:
+                return True

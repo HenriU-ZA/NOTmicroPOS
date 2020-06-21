@@ -6,5 +6,8 @@
 							<li><a href="generic.html">Tempus etiam</a></li>
 							<li><a href="generic.html">Consequat dolor</a></li>
 							<li><a href="elements.html">Elements</a></li>
+							{% if user.account_type == 'super' %}
+							<li><a href="{{url_for('adduser')}}">Add User</a></li>
+							{% endif %}
 						</ul>
 					</nav>

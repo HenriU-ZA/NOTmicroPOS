@@ -23,11 +23,26 @@ def invalid_route(e):
                                pg_data=FunctionData.format_page_data('notfound', g.user.name))
     return redirect(url_for('login'))
 
+@app.route('/adduser', methods=['GET', 'POST'])
+def adduser():
+    if g.user:
+        more = ""
+        if request.method == 'POST':
+            more = User.create_new_user(request.form['user_code'], request.form['user_name'])
+
+        return render_template('users/adduser.html',
+                               pg_data=FunctionData.format_page_data('adduser', g.user.name),
+                               user=g.user,
+                               more=more)
+    return redirect(url_for('login'))
+
 
 @app.route('/')
 def index():
     if g.user:
-        return render_template('index.html', pg_data=FunctionData.format_page_data('home', g.user.name))
+        return render_template('index.html',
+                               pg_data=FunctionData.format_page_data('home', g.user.name),
+                               user=g.user)
     return redirect(url_for('login'))
 
 
@@ -48,10 +63,10 @@ def logout():
     return redirect(url_for('index'))
 
 
-
 @app.route('/test')
 def test():
     return render_template('test.html', user=g.user)
+
 
 @app.route('/error/<ptl>')
 def error(ptl):

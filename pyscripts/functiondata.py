@@ -41,6 +41,9 @@ class FunctionData:
         data = FunctionData.load_from_db_by_name(name)
         if data:
             title = data.title
-        return {'title': title, 'username': username, 'optional_message': optional_message, 'description': data.description}
+        return {'title': title,
+                'username': username,
+                'optional_message': optional_message,
+                'description': data.description}
 
 

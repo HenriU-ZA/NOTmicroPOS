@@ -58,6 +58,31 @@ class User:
             return f"User {user_name} with user code {user_code} was created with password 1234!"
 
     @classmethod
+    def reset_password(cls, usercode):
+        """Will allow the superuser to reset other user's passwords."""
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute('UPDATE users SET password =%s WHERE user_code=%s',
+                           (encrypt_password("1234"), usercode,))
+            user_check = cursor.fetchone()
+            if user_check:
+                return True
+
+    @classmethod
+    def view_all_users(cls):
+        """Will allow a superuser to view all created users on the system."""
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute('SELECT * FROM users')
+            all_users = cursor.fetchall()
+            if all_users:
+                better_all_users = []
+                for user in all_users:
+                    better_all_users.append({'user_id': user[0], 'username': user[1], 'password': user[2],
+                                             'usertype': user[3], 'usercode': user[4]})
+                return better_all_users
+
+
+
+    @classmethod
     def usercode_exists(cls, user_code):
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute('SELECT _id FROM users WHERE user_code=%s',

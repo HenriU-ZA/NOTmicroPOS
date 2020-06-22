@@ -8,6 +8,7 @@
 							<li><a href="elements.html">Elements</a></li>
 							{% if user.account_type == 'super' %}
 							<li><a href="{{url_for('adduser')}}">Add User</a></li>
+							<li><a href="{{url_for('viewuser')}}">View Users</a></li>
 							{% endif %}
 						</ul>
 					</nav>

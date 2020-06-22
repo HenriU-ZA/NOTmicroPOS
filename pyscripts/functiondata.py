@@ -1,11 +1,12 @@
 from pyscripts.database import CursorFromConnectionFromPool
 
 class FunctionData:
-    def __init__(self, name, description, used, title, _id):
+    def __init__(self, name, description, used, title, access, _id):
         self.name = name
         self.description = description
         self.used = used
         self.title = title
+        self.access = access
         self._id = _id
 
     def __repr__(self):
@@ -31,6 +32,7 @@ class FunctionData:
                            description=function_data[2],
                            used=function_data[3],
                            title=function_data[4],
+                           access=function_data[5],
                            _id=function_data[0])
 
     @classmethod

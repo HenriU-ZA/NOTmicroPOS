@@ -2,6 +2,8 @@ from flask import Flask, render_template, session, redirect, request, url_for, g
 from pyscripts.user import User
 from pyscripts.database import Database
 from pyscripts.functiondata import FunctionData
+from pyscripts.refactor import encrypt_password
+
 
 app = Flask(__name__)
 app.secret_key = '1234jhghgahugsjn'
@@ -68,12 +70,45 @@ def logout():
 @app.route('/passreset', methods=['GET', 'POST'])
 def passreset():
     if g.user:
-        if g.user.account_type == 'super':
+        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
+            message = ""
             if request.method == 'POST':
-                return render_template('users/passreset.html',
-                                       pg_data=FunctionData.format_page_data('viewuser', g.user.name), ##########################
-                                       user=g.user,
-                                       message=User.view_all_users())
+                if User.reset_user('password', encrypt_password("1234"), request.form['user']):
+                    message = "Password reset has been successful."
+                    return render_template('users/passreset.html',
+                                           pg_data=FunctionData.format_page_data('resetpass', g.user.name), ##########################
+                                           user=g.user,
+                                           message=message)
+                return redirect(url_for('error', ptl='failed'))
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
+
+@app.route('/renameuser', methods=['GET', 'POST'])
+def renameuser():
+    if g.user:
+        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
+            targetuser = ""
+            if request.method == 'POST':
+                targetuser = User.load_from_db_by_user_code(request.form['user'])
+            return render_template('users/renameuser.html',
+                                   pg_data=FunctionData.format_page_data('renameuser', g.user.name),
+                                   user=g.user,
+                                   targetuser=targetuser)
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
+
+@app.route('/renameusergo', methods=['GET', 'POST'])
+def renameusergo():
+    if g.user:
+        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
+            message = ""
+            if request.method == 'POST':
+                if User.reset_user('name', request.form['user_name'], request.form['user']):
+                    message = "Name change successful."
+            return render_template('users/renameusergo.html',
+                                   pg_data=FunctionData.format_page_data('renameuser', g.user.name),
+                                   user=g.user,
+                                   message=message)
         return redirect(url_for('index'))
     return redirect(url_for('login'))
 
@@ -81,7 +116,7 @@ def passreset():
 @app.route('/viewuser')
 def viewuser():
     if g.user:
-        if g.user.account_type == 'super':
+        if g.user.account_type == FunctionData.load_from_db_by_name('viewuser').access:
             users = ""
             return render_template('users/viewuser.html',
                                    pg_data=FunctionData.format_page_data('viewuser', g.user.name),

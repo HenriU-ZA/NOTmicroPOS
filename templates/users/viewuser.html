@@ -22,14 +22,16 @@
 													<td>{{user['usercode']}}</td>
 													<td>{{user['usertype']}}</td>
 													<td>
-														<ul class="actions">
-															<li><input type="submit" value="Reset" class="button small fit" /></li>
-														</ul>
+														<form action="passreset" method="post">
+															<input type="hidden" value="{{user['user_id']}}" name="user" />
+															<input type="submit" value="Reset" class="button small fit" />
+														</form>
 													</td>
 													<td>
-														<ul class="actions">
-															<li><input type="submit" value="Rename" class="button small fit" /></li>
-														</ul>
+														<form action="renameuser" method="post">
+															<input type="hidden" value="{{user['usercode']}}" name="user" />
+															<input type="submit" value="Rename" class="button small fit" />
+														</form>
 													</td>
 												</tr>
 											{% endfor %}

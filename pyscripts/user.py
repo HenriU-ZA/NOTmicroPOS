@@ -58,13 +58,16 @@ class User:
             return f"User {user_name} with user code {user_code} was created with password 1234!"
 
     @classmethod
-    def reset_password(cls, usercode):
+    def reset_user(cls, action, value, userid=None):
         """Will allow the superuser to reset other user's passwords."""
-        with CursorFromConnectionFromPool() as cursor:
-            cursor.execute('UPDATE users SET password =%s WHERE user_code=%s',
-                           (encrypt_password("1234"), usercode,))
-            user_check = cursor.fetchone()
-            if user_check:
+        if userid:
+            with CursorFromConnectionFromPool() as cursor:
+                if action == 'password':
+                    cursor.execute('UPDATE users SET password =%s WHERE _id=%s',
+                                   (value, userid))
+                elif action == 'name':
+                    cursor.execute('UPDATE users SET name =%s WHERE _id=%s',
+                                   (value, userid))
                 return True
 
     @classmethod

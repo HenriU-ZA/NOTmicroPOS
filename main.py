@@ -4,6 +4,7 @@ from pyscripts.details import Details
 from pyscripts.database import Database
 from pyscripts.functiondata import FunctionData
 from pyscripts.refactor import encrypt_password
+import pyscripts.pageformats as pageformats
 
 
 app = Flask(__name__)
@@ -113,8 +114,12 @@ def renameusergo():
 def superuser():
     if g.user:
         if g.user.account_type == FunctionData.load_from_db_by_name('superuser').access:
+            for_display = None
+            if request.method == 'POST':
+                for_display = pageformats.superuser_page_formats(request.form['todo'])
             return render_template('users/superuser.html',
-                                   pg_data=FunctionData.format_page_data('superuser', g.user.name))
+                                   pg_data=FunctionData.format_page_data('superuser', g.user.name),
+                                   for_display=for_display)
         return redirect(url_for('index'))
     return redirect(url_for('login'))
 

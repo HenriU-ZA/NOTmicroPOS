@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="inner">
+					<section>
+            <h1>SuperUser Features</h1>
+            <h4>These features are mostly meant for setup purposes.</h4>
+            <div class="row">
+              <div class="col-6 col-12-medium">
+                <ul class="actions stacked">
+                  <li><a href="{{url_for('viewuser')}}" class="button small fit">View all Users</a></li>
+                </ul>
+              </div>
+              <div class="col-6 col-12-medium">
+                <ul class="actions stacked">
+                  <li><a href="{{url_for('adduser')}}" class="button small fit">Add a new User</a></li>
+                </ul>
+              </div>
+            </div>
+					</section>
+				</div>
+    </div>
+{% endblock %}

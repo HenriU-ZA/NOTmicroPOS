@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session, redirect, request, url_for, g
 from pyscripts.user import User
+from pyscripts.details import Details
 from pyscripts.database import Database
 from pyscripts.functiondata import FunctionData
 from pyscripts.refactor import encrypt_password
@@ -16,6 +17,7 @@ def load_user():
     g.user = None
     if 'user_code' in session:
         g.user = User.load_from_db_by_user_code(session['user_code'])
+    g.details = Details.load_details_from_db()
 
 
 @app.errorhandler(404)
@@ -35,7 +37,6 @@ def adduser():
                 more = User.create_new_user(request.form['user_code'], request.form['user_name'])
             return render_template('users/adduser.html',
                                    pg_data=FunctionData.format_page_data('adduser', g.user.name),
-                                   user=g.user,
                                    more=more)
         return redirect(url_for('index'))
     return redirect(url_for('login'))
@@ -45,8 +46,7 @@ def adduser():
 def index():
     if g.user:
         return render_template('index.html',
-                               pg_data=FunctionData.format_page_data('home', g.user.name),
-                               user=g.user)
+                               pg_data=FunctionData.format_page_data('home', g.user.name))
     return redirect(url_for('login'))
 
 
@@ -76,8 +76,7 @@ def passreset():
                 if User.reset_user('password', encrypt_password("1234"), request.form['user']):
                     message = "Password reset has been successful."
                     return render_template('users/passreset.html',
-                                           pg_data=FunctionData.format_page_data('resetpass', g.user.name), ##########################
-                                           user=g.user,
+                                           pg_data=FunctionData.format_page_data('resetpass', g.user.name),
                                            message=message)
                 return redirect(url_for('error', ptl='failed'))
         return redirect(url_for('index'))
@@ -92,7 +91,6 @@ def renameuser():
                 targetuser = User.load_from_db_by_user_code(request.form['user'])
             return render_template('users/renameuser.html',
                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-                                   user=g.user,
                                    targetuser=targetuser)
         return redirect(url_for('index'))
     return redirect(url_for('login'))
@@ -107,8 +105,16 @@ def renameusergo():
                     message = "Name change successful."
             return render_template('users/renameusergo.html',
                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-                                   user=g.user,
                                    message=message)
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
+
+@app.route('/superuser', methods=['GET', 'POST'])
+def superuser():
+    if g.user:
+        if g.user.account_type == FunctionData.load_from_db_by_name('superuser').access:
+            return render_template('users/superuser.html',
+                                   pg_data=FunctionData.format_page_data('superuser', g.user.name))
         return redirect(url_for('index'))
     return redirect(url_for('login'))
 
@@ -120,7 +126,6 @@ def viewuser():
             users = ""
             return render_template('users/viewuser.html',
                                    pg_data=FunctionData.format_page_data('viewuser', g.user.name),
-                                   user=g.user,
                                    users=User.view_all_users())
         return redirect(url_for('index'))
     return redirect(url_for('login'))

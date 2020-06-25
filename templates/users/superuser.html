@@ -9,18 +9,6 @@
       <h4>These features are mostly meant for setup purposes.</h4>
       <div class="row">
         <div class="col-6 col-12-medium">
-          <ul class="actions stacked">
-            <li><a href="{{url_for('viewuser')}}" class="button small fit">View all Users</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-12-medium">
-          <ul class="actions stacked">
-            <li><a href="{{url_for('adduser')}}" class="button small fit">Add a new User</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-12-medium">
           <form action="superuser" method="post">
             <input type="hidden" value="view_users" name="todo"/>
             <input type="submit" value="View All Users" class="button small fit"/>
@@ -79,6 +67,41 @@
       </div>
     </section>
   </div>
+  {% elif for_display[1] == 'add_user' %}
+  <div class="inner">
+    <section>
+      <h2>Create new user:</h2>
+      <form method="post" action="superuser">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="text" name="user_code" id="user_code" value="" placeholder="User Code" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <input type="hidden" value="creating" name="todo"/>
+            <input type="text" name="user_name" id="user_name" value="" placeholder="User Name"/>
+          </div>
+          <div class="col-12">
+            <ul class="actions">
+              <li><input type="submit" value="Create User" class="primary"/></li>
+              <li><input type="reset" value="Reset" class="primary"/></li>
+              <li><a href="{{url_for('superuser')}}" class="button primary">Cancel</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+
+    </section>
+  </div>
+  {% elif for_display[1] == 'creating' %}
+  <div class="inner">
+    <section>
+      <h2>{{for_display[0]}}</h2>
+      <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+    </section>
+  </div>
+
+
   {% endif %}
+
 </div>
 {% endblock %}

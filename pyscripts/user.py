@@ -74,7 +74,7 @@ class User:
     def view_all_users(cls):
         """Will allow a superuser to view all created users on the system."""
         with CursorFromConnectionFromPool() as cursor:
-            cursor.execute('SELECT * FROM users')
+            cursor.execute('SELECT * FROM users ORDER BY name ASC ')
             all_users = cursor.fetchall()
             if all_users:
                 better_all_users = []

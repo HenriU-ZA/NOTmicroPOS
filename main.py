@@ -29,18 +29,18 @@ def invalid_route(e):
     return redirect(url_for('login'))
 
 
-@app.route('/adduser', methods=['GET', 'POST'])
-def adduser():
-    if g.user:
-        if g.user.account_type == 'super':
-            more = ""
-            if request.method == 'POST':
-                more = User.create_new_user(request.form['user_code'], request.form['user_name'])
-            return render_template('users/adduser.html',
-                                   pg_data=FunctionData.format_page_data('adduser', g.user.name),
-                                   more=more)
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
+# @app.route('/adduser', methods=['GET', 'POST'])
+# def adduser():
+#     if g.user:
+#         if g.user.account_type == 'super':
+#             more = ""
+#             if request.method == 'POST':
+#                 more = User.create_new_user(request.form['user_code'], request.form['user_name'])
+#             return render_template('users/adduser.html',
+#                                    pg_data=FunctionData.format_page_data('adduser', g.user.name),
+#                                    more=more)
+#         return redirect(url_for('index'))
+#     return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -116,7 +116,7 @@ def superuser():
         if g.user.account_type == FunctionData.load_from_db_by_name('superuser').access:
             for_display = None
             if request.method == 'POST':
-                for_display = pageformats.superuser_page_formats(request.form['todo'])
+                for_display = pageformats.superuser_page_formats(request.form)
             return render_template('users/superuser.html',
                                    pg_data=FunctionData.format_page_data('superuser', g.user.name),
                                    for_display=for_display)
@@ -124,16 +124,16 @@ def superuser():
     return redirect(url_for('login'))
 
 
-@app.route('/viewuser')
-def viewuser():
-    if g.user:
-        if g.user.account_type == FunctionData.load_from_db_by_name('viewuser').access:
-            users = ""
-            return render_template('users/viewuser.html',
-                                   pg_data=FunctionData.format_page_data('viewuser', g.user.name),
-                                   users=User.view_all_users())
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
+# @app.route('/viewuser')
+# def viewuser():
+#     if g.user:
+#         if g.user.account_type == FunctionData.load_from_db_by_name('viewuser').access:
+#             users = ""
+#             return render_template('users/viewuser.html',
+#                                    pg_data=FunctionData.format_page_data('viewuser', g.user.name),
+#                                    users=User.view_all_users())
+#         return redirect(url_for('index'))
+#     return redirect(url_for('login'))
 
 
 @app.route('/test')

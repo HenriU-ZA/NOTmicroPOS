@@ -83,32 +83,32 @@ def passreset():
         return redirect(url_for('index'))
     return redirect(url_for('login'))
 
-@app.route('/renameuser', methods=['GET', 'POST'])
-def renameuser():
-    if g.user:
-        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
-            targetuser = ""
-            if request.method == 'POST':
-                targetuser = User.load_from_db_by_user_code(request.form['user'])
-            return render_template('users/renameuser.html',
-                                   pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-                                   targetuser=targetuser)
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
+# @app.route('/renameuser', methods=['GET', 'POST'])
+# def renameuser():
+#     if g.user:
+#         if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
+#             targetuser = ""
+#             if request.method == 'POST':
+#                 targetuser = User.load_from_db_by_user_code(request.form['user'])
+#             return render_template('users/renameuser.html',
+#                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
+#                                    targetuser=targetuser)
+#         return redirect(url_for('index'))
+#     return redirect(url_for('login'))
 
-@app.route('/renameusergo', methods=['GET', 'POST'])
-def renameusergo():
-    if g.user:
-        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
-            message = ""
-            if request.method == 'POST':
-                if User.reset_user('name', request.form['user_name'], request.form['user']):
-                    message = "Name change successful."
-            return render_template('users/renameusergo.html',
-                                   pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-                                   message=message)
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
+# @app.route('/renameusergo', methods=['GET', 'POST'])
+# def renameusergo():
+#     if g.user:
+#         if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
+#             message = ""
+#             if request.method == 'POST':
+#                 if User.reset_user('name', request.form['user_rename'], request.form['user']):
+#                     message = "Name change successful."
+#             return render_template('users/renameusergo.html',
+#                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
+#                                    message=message)
+#         return redirect(url_for('index'))
+#     return redirect(url_for('login'))
 
 @app.route('/superuser', methods=['GET', 'POST'])
 def superuser():

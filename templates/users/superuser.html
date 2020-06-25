@@ -54,7 +54,8 @@
               </form>
             </td>
             <td>
-              <form action="renameuser" method="post">
+              <form action="superuser" method="post">
+                <input type="hidden" value="rename" name="todo"/>
                 <input type="hidden" value="{{user['usercode']}}" name="user"/>
                 <input type="submit" value="Rename" class="button small fit"/>
               </form>
@@ -99,8 +100,33 @@
       <a href="{{url_for('superuser')}}" class="button primary">Back</a>
     </section>
   </div>
+  {% elif for_display[1] == 'rename' %}
+  <div class="inner">
+    <section>
+      <h2>Rename user:</h2>
+      <form method="post" action="superuser">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="hidden" value="renaming" name="todo"/>
+            <input type="hidden" name="user" value="{{for_display[0]._id}}"/>
+            <input type="text" name="user_rename" id="user_rename" value="{{for_display[0].name}}" placeholder=""/>
+          </div>
+          <div class="col-12">
+            <ul class="actions">
+              <li><input type="submit" value="Rename User" class="primary"/></li>
+              <li><input type="reset" value="Reset" class="primary"/></li>
+              <li><a href="{{url_for('superuser')}}" class="button primary">Back</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
 
-
+    </section>
+  </div>
+  {% elif for_display[1] == 'renaming' %}
+  <h1>Renamed User</h1>
+  <p>{{for_display[0]}}</p>
+  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
   {% endif %}
 
 </div>

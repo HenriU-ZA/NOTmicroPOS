@@ -20,6 +20,15 @@
             <input type="submit" value="Add a New User" class="button small fit"/>
           </form>
         </div>
+        <div class="col-6 col-12-medium">
+          <form action="superuser" method="post">
+            <input type="hidden" value="update_details" name="todo"/>
+            <input type="submit" value="Update Details" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+
+        </div>
       </div>
 
     </section>
@@ -48,8 +57,9 @@
             <td>{{user['usercode']}}</td>
             <td>{{user['usertype']}}</td>
             <td>
-              <form action="passreset" method="post">
+              <form action="superuser" method="post">
                 <input type="hidden" value="{{user['user_id']}}" name="user"/>
+                <input type="hidden" value="reset" name="todo"/>
                 <input type="submit" value="Reset" class="button small fit"/>
               </form>
             </td>
@@ -71,7 +81,8 @@
   {% elif for_display[1] == 'add_user' %}
   <div class="inner">
     <section>
-      <h2>Create new user:</h2>
+      <h1>Create new user:</h1>
+      <h4>Please enter the detaails below.</h4>
       <form method="post" action="superuser">
         <div class="row gtr-uniform">
           <div class="col-6 col-12-xsmall">
@@ -96,14 +107,16 @@
   {% elif for_display[1] == 'creating' %}
   <div class="inner">
     <section>
-      <h2>{{for_display[0]}}</h2>
+      <h1>Creating new user.</h1>
+      <h4>{{for_display[0]}}</h4>
       <a href="{{url_for('superuser')}}" class="button primary">Back</a>
     </section>
   </div>
   {% elif for_display[1] == 'rename' %}
   <div class="inner">
     <section>
-      <h2>Rename user:</h2>
+      <h1>Rename user:</h1>
+      <h4>Select a new name.</h4>
       <form method="post" action="superuser">
         <div class="row gtr-uniform">
           <div class="col-6 col-12-xsmall">
@@ -125,8 +138,60 @@
   </div>
   {% elif for_display[1] == 'renaming' %}
   <h1>Renamed User</h1>
-  <p>{{for_display[0]}}</p>
+  <h4>{{for_display[0]}}</h4>
   <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  {% elif for_display[1] == 'reset' %}
+  <h1>Password Reset</h1>
+  <h4>{{for_display[0]}}</h4>
+  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  {% elif for_display[1] == 'update_details' %}
+  <div class="inner">
+    <section>
+      <h1>Update Details:</h1>
+      <h4>Enter the new details as required.</h4>
+      <form method="post" action="superuser">
+        <div class="row gtr-uniform">
+          <div class="col-12">
+            <input type="hidden" value="updating" name="todo"/>
+            Name:
+            <input type="text" name="name" id="name" value="{{g.details.name}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            Contact Person:
+            <input type="text" name="contact_person" id="contact_person" value="{{g.details.contact_person}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            Contact Number:
+            <input type="text" name="contact_nr" id="contact_nr" value="{{g.details.contact_nr}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            Alternate Contact Person:
+            <input type="text" name="contact_alt_person" id="contact_alt_person" value="{{g.details.contact_alt_person}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            Alternate Contact Number:
+            <input type="text" name="contact_alt" id="contact_alt" value="{{g.details.contact_alt}}" required/>
+          </div>
+          <div class="col-12">
+            <textarea name="address" id="address"  rows="6">{{g.details.address}}</textarea>
+          </div>
+          <div class="col-12">
+            <ul class="actions">
+              <li><input type="submit" value="Update Details" class="primary"/></li>
+              <li><a href="{{url_for('superuser')}}" class="button primary">Cancel</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+
+    </section>
+  </div>
+  {% elif for_display[1] == 'updating' %}
+  <h1>Updated Details</h1>
+  <h4>{{for_display[0]}}</h4>
+  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+
+
   {% endif %}
 
 </div>

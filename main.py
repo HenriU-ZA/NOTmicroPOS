@@ -3,7 +3,6 @@ from pyscripts.user import User
 from pyscripts.details import Details
 from pyscripts.database import Database
 from pyscripts.functiondata import FunctionData
-from pyscripts.refactor import encrypt_password
 import pyscripts.pageformats as pageformats
 
 
@@ -28,19 +27,6 @@ def invalid_route(e):
                                pg_data=FunctionData.format_page_data('notfound', g.user.name))
     return redirect(url_for('login'))
 
-
-# @app.route('/adduser', methods=['GET', 'POST'])
-# def adduser():
-#     if g.user:
-#         if g.user.account_type == 'super':
-#             more = ""
-#             if request.method == 'POST':
-#                 more = User.create_new_user(request.form['user_code'], request.form['user_name'])
-#             return render_template('users/adduser.html',
-#                                    pg_data=FunctionData.format_page_data('adduser', g.user.name),
-#                                    more=more)
-#         return redirect(url_for('index'))
-#     return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -68,48 +54,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/passreset', methods=['GET', 'POST'])
-def passreset():
-    if g.user:
-        if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
-            message = ""
-            if request.method == 'POST':
-                if User.reset_user('password', encrypt_password("1234"), request.form['user']):
-                    message = "Password reset has been successful."
-                    return render_template('users/passreset.html',
-                                           pg_data=FunctionData.format_page_data('resetpass', g.user.name),
-                                           message=message)
-                return redirect(url_for('error', ptl='failed'))
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
-
-# @app.route('/renameuser', methods=['GET', 'POST'])
-# def renameuser():
-#     if g.user:
-#         if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
-#             targetuser = ""
-#             if request.method == 'POST':
-#                 targetuser = User.load_from_db_by_user_code(request.form['user'])
-#             return render_template('users/renameuser.html',
-#                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-#                                    targetuser=targetuser)
-#         return redirect(url_for('index'))
-#     return redirect(url_for('login'))
-
-# @app.route('/renameusergo', methods=['GET', 'POST'])
-# def renameusergo():
-#     if g.user:
-#         if g.user.account_type == FunctionData.load_from_db_by_name('resetpass').access:
-#             message = ""
-#             if request.method == 'POST':
-#                 if User.reset_user('name', request.form['user_rename'], request.form['user']):
-#                     message = "Name change successful."
-#             return render_template('users/renameusergo.html',
-#                                    pg_data=FunctionData.format_page_data('renameuser', g.user.name),
-#                                    message=message)
-#         return redirect(url_for('index'))
-#     return redirect(url_for('login'))
-
 @app.route('/superuser', methods=['GET', 'POST'])
 def superuser():
     if g.user:
@@ -124,17 +68,6 @@ def superuser():
     return redirect(url_for('login'))
 
 
-# @app.route('/viewuser')
-# def viewuser():
-#     if g.user:
-#         if g.user.account_type == FunctionData.load_from_db_by_name('viewuser').access:
-#             users = ""
-#             return render_template('users/viewuser.html',
-#                                    pg_data=FunctionData.format_page_data('viewuser', g.user.name),
-#                                    users=User.view_all_users())
-#         return redirect(url_for('index'))
-#     return redirect(url_for('login'))
-
 
 @app.route('/test')
 def test():
@@ -147,4 +80,8 @@ def error(ptl):
     return render_template('errors/error_page.html', pg_data=FunctionData.format_page_data(ptl, '-----'))
 
 
-app.run(port=4995, debug=True)
+app.run(
+    port=4995,
+    debug=True,
+    host='0.0.0.0'
+)

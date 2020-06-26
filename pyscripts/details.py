@@ -27,4 +27,23 @@ class Details:
                            address=details[4],
                            contact_alt_person=details[5])
 
+    def save_details_do_db(self):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute('UPDATE details SET '
+                           'name=%s, contact_person=%s, contact_nr=%s, '
+                           'contact_alt=%s, address=%s, contact_alt_person=%s ',
+                           (self.name, self.contact_person, self.contact_nr,
+                            self.contact_alt, self.address, self.contact_alt_person))
+
+    def update_details(self, new):
+        self.name = new['name']
+        self.contact_person = new['contact_person']
+        self.contact_nr = new['contact_nr']
+        self.contact_alt = new['contact_alt']
+        self.address = new['address']
+        self.contact_alt_person = new['contact_alt_person']
+
+
+
+
 

@@ -1,6 +1,7 @@
 from pyscripts.user import User
 from pyscripts.refactor import encrypt_password
 from pyscripts.details import Details
+from pyscripts.confirm import confirm_passwords
 from flask import g
 
 
@@ -30,3 +31,22 @@ def superuser_page_formats(todo):
         return ['Details has been updated!', todo['todo']]
     else:
         return [None, None]
+
+
+def dashboard_page_formats(data):
+    if data['todo'] == 'change_password':
+        return [data['todo'], None,
+                'You can update your password by entering you current password, and your new password.',
+                'Change my password']
+    elif data['todo'] == 'changing_password':
+        message = None
+        check = confirm_passwords(data['current_password'], data['new_password'], data['confirm_password'])
+        if check[0]:
+            if User.reset_user('password', encrypt_password(data['new_password']), g.user._id):
+                message = 'Password Change was successful!'
+        else:
+            message = check[1]
+
+        return [data['todo'], message,
+                'I have changed my password.',
+                'Changed my password']

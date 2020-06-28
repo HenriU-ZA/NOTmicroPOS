@@ -13,6 +13,7 @@ class User:
     def __repr__(self):
         return f"<User {self.name}>"
 
+
     @classmethod
     def save_to_db_new_user(cls, name, password, account_type, user_code):
         """This module will save a new user to the database"""

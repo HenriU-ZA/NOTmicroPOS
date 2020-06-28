@@ -10,8 +10,10 @@ A micro POS system for small entrepreneurs.
 - View/Update Business Details
 
 ### Users
+- Change my Password
 
 ## Planned Features
+- Set initial financials (superuser)
 - Place Orders
 - Receive orders
 - Sell Stock

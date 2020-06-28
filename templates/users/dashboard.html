@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+  {% if not request.method == 'POST' %}
+  <div class="inner">
+    <section>
+      <h1>My Dashboard</h1>
+      <h4>This page will access features related to your user account.</h4>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+          <form action="dashboard" method="post">
+            <input type="hidden" value="change_password" name="todo"/>
+            <input type="submit" value="Change My Password" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+        </div>
+        <div class="col-6 col-12-medium">
+        </div>
+        <div class="col-6 col-12-medium">
+
+        </div>
+      </div>
+    </section>
+  </div>
+  {% endif %}
+  {% if for_display[0] == 'change_password' %}
+  <section>
+    <h1>{{for_display[3]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <form method="post" action="dashboard">
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="password" name="new_password" id="new_password" placeholder="New Password" minlength="8"
+                 required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm New Password"
+                 minlength="8" required/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="password" name="current_password" id="current_password" required placeholder="Current Password"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+        </div>
+      </div>
+      <br>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="hidden" value="changing_password" name="todo"/>
+          <input type="submit" value="Change My Password" class="button small fit"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <a href="{{url_for('dashboard')}}" class="button small fit">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+  {% elif for_display[0] == 'changing_password' %}
+  <section>
+    <h1>{{for_display[3]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <p>{{for_display[1]}}</p>
+    <a href="{{url_for('dashboard')}}" class="button primary">Back</a>
+  </section>
+
+  {% endif %}
+</div>
+{% endblock %}

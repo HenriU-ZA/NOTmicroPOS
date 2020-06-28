@@ -5,7 +5,6 @@ from pyscripts.database import Database
 from pyscripts.functiondata import FunctionData
 import pyscripts.pageformats as pageformats
 
-
 app = Flask(__name__)
 app.secret_key = '1234jhghgahugsjn'
 
@@ -26,7 +25,6 @@ def invalid_route(e):
         return render_template('errors/notfound.html',
                                pg_data=FunctionData.format_page_data('notfound', g.user.name))
     return redirect(url_for('login'))
-
 
 
 @app.route('/')
@@ -54,6 +52,18 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if g.user:
+        for_display = None
+        if request.method == 'POST':
+            for_display = pageformats.dashboard_page_formats(request.form)
+        return render_template('users/dashboard.html',
+                               pg_data=FunctionData.format_page_data('dashboard', g.user.name),
+                               for_display=for_display)
+    return redirect(url_for('login'))
+
+
 @app.route('/superuser', methods=['GET', 'POST'])
 def superuser():
     if g.user:
@@ -66,7 +76,6 @@ def superuser():
                                    for_display=for_display)
         return redirect(url_for('index'))
     return redirect(url_for('login'))
-
 
 
 @app.route('/test')

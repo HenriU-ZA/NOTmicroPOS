@@ -5,67 +5,72 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>{{pg_data['title']}}</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<link rel="shortcut icon" href="{{ url_for( 'static', filename='images/shopping.ico') }}" />
+<head>
+  <title>{{pg_data['title']}}</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css"/>
+  </noscript>
+  <link rel="shortcut icon" href="{{ url_for( 'static', filename='images/shopping.ico') }}"/>
 
-	</head>
-	<body class="is-preload">
-		<!-- Wrapper -->
-			<div id="wrapper">
+</head>
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
 
 
-				<!-- Header -->
-					<header id="header">
-						<div class="inner">
-							<!-- Logo -->
-								<a href="/" class="logo">
-									<span class="symbol"><img src="{{ url_for('static', filename='images/poslogo.png') }}" alt="" /></span><span class="title">NOTmicroPOS - {{g.details.name}}</span>
-								</a>
+  <!-- Header -->
+  <header id="header">
+    <div class="inner">
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <span class="symbol"><img src="{{ url_for('static', filename='images/poslogo.png') }}" alt=""/></span><span
+              class="title">NOTmicroPOS - {{g.details.name}}</span>
+      </a>
 
-							<!-- Nav -->
-							<p align="right"><sup>Logged in as {{pg_data['username']}} <a href="/logout">(LogOut)</a></sup></p>
-								<nav>
-									<ul>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
+      <!-- Nav -->
+      <p align="right"><sup><a href="{{url_for('dashboard')}}">Logged in as {{pg_data['username']}}</a> <a
+              href="{{url_for('logout')}}">(LogOut)</a></sup></p>
+      <nav>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+        </ul>
+      </nav>
 
-						</div>
-					</header>
+    </div>
+  </header>
 
-				<!-- Menu -->
-					{% include 'navigation.html' %}
+  <!-- Menu -->
+  {% include 'navigation.html' %}
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-							<section>
-								{% block content %}{% endblock %}
-							</section>
-						</div>
-					</div>
-				<BR><BR><BR>
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+      <section>
+        {% block content %}{% endblock %}
+      </section>
+    </div>
+  </div>
+  <BR><BR><BR>
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="inner">
+      <ul class="copyright">
+        <li>&copy; Untitled. All rights reserved</li>
+        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+      </ul>
+    </div>
+  </footer>
 
-			</div>
+</div>
 
-		<!-- Scripts -->
-			<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-			<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
-			<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
-			<script src="{{ url_for('static', filename='js/util.js') }}"></script>
-			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-	</body>
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
 </html>

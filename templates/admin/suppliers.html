@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+  {% if not request.method == 'POST' %}
+  <div class="inner">
+    <section>
+      <h1>Suppliers</h1>
+      <h4>This page will access features related to your suppliers.</h4>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+          <form action="suppliers" method="post">
+            <input type="hidden" value="new_supplier" name="todo"/>
+            <input type="submit" value="Create Supplier" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+          <form action="suppliers" method="post">
+            <input type="hidden" value="view_suppliers" name="todo"/>
+            <input type="submit" value="View Suppliers" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+        </div>
+        <div class="col-6 col-12-medium">
+
+        </div>
+      </div>
+    </section>
+  </div>
+  {% endif %}
+  {% if for_display[0] == 'new_supplier' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <form method="post" action="suppliers">
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="name" id="name" placeholder="Supplier Name" required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_person" id="contact_person" placeholder="Contact Person"
+                 required/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_number" id="contact_number" required placeholder="Contact Number"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="email" name="contact_email" id="contact_email" required placeholder="Email Address"/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <textarea name="address" id="address" rows="6" placeholder="Supplier Address"></textarea>
+        </div>
+      </div>
+      <br>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="hidden" value="create_supplier" name="todo"/>
+          <input type="submit" value="Create New Supplier" class="button small fit"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <a href="{{url_for('suppliers')}}" class="button small fit">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+  {% elif for_display[0] == 'create_supplier' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <p>{{for_display[3]}}</p>
+    <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+  </section>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

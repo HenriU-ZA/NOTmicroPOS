@@ -11,6 +11,7 @@ A micro POS system for small entrepreneurs.
 
 ### Users
 - Change my Password
+- Create New Supplier
 
 ## Planned Features
 - Set initial financials (superuser)

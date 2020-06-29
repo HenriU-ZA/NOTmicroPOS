@@ -1,4 +1,5 @@
 from pyscripts.user import User
+from pyscripts.suppliers import Supplier
 from pyscripts.refactor import encrypt_password
 from pyscripts.details import Details
 from pyscripts.confirm import confirm_passwords
@@ -50,3 +51,12 @@ def dashboard_page_formats(data):
         return [data['todo'], message,
                 'I have changed my password.',
                 'Changed my password']
+
+def suppliers_page_formats(data):
+    if data['todo'] == 'new_supplier':
+        return [data['todo'], 'Create new supplier', 'Please fill the details of the new supplier']
+    elif data['todo'] == 'create_supplier':
+        result = 'Something went wrong!'
+        if Supplier.save_to_db_new_supplier(data['name'], data['contact_person'], data['contact_number'], data['contact_email'], data['address']):
+            result = 'Supplier created!'
+        return [data['todo'], 'Created new supplier', 'You have attempted to create a new supplier', result]

@@ -78,6 +78,18 @@ def superuser():
     return redirect(url_for('login'))
 
 
+@app.route('/suppliers', methods=['GET', 'POST'])
+def suppliers():
+    if g.user:
+        for_display = None
+        if request.method == 'POST':
+            for_display = pageformats.suppliers_page_formats(request.form)
+        return render_template('admin/suppliers.html',
+                               pg_data=FunctionData.format_page_data('suppliers', g.user.name),
+                               for_display=for_display)
+    return redirect(url_for('login'))
+
+
 @app.route('/test')
 def test():
     return render_template('test.html', pg_data=FunctionData.format_page_data('home', g.user.name),

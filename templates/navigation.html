@@ -5,7 +5,7 @@
 							<li><a href="{{url_for('dashboard')}}">My Dashboard</a></li>
 							<li><a href="generic.html">Tempus etiam</a></li>
 							<li><a href="generic.html">Consequat dolor</a></li>
-							<li><a href="elements.html">Elements</a></li>
+							<li><a href="{{url_for('suppliers')}}">Suppliers</a></li>
 							{% if g.user.account_type == 'super' %}
 							<li><a href="{{url_for('superuser')}}">SuperUser Features</a></li>
 							{% endif %}

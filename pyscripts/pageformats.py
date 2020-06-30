@@ -52,11 +52,14 @@ def dashboard_page_formats(data):
                 'I have changed my password.',
                 'Changed my password']
 
+
 def suppliers_page_formats(data):
     if data['todo'] == 'new_supplier':
         return [data['todo'], 'Create new supplier', 'Please fill the details of the new supplier']
     elif data['todo'] == 'create_supplier':
-        result = 'Something went wrong!'
-        if Supplier.save_to_db_new_supplier(data['name'], data['contact_person'], data['contact_number'], data['contact_email'], data['address']):
-            result = 'Supplier created!'
+        Supplier.save_to_db_new_supplier(data['name'], data['contact_person'], data['contact_number'],
+                                         data['contact_email'], data['address'], data['website'])
+        result = 'Supplier created!'
         return [data['todo'], 'Created new supplier', 'You have attempted to create a new supplier', result]
+    elif data['todo'] == 'view_suppliers':
+        return [data['todo'], 'View Suppliers', 'A list of all registered suppliers', Supplier.view_all_suppliers()]

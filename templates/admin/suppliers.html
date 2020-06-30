@@ -45,10 +45,17 @@
       </div>
       <div class="row gtr-uniform">
         <div class="col-6 col-12-xsmall">
-          <input type="text" name="contact_number" id="contact_number" required placeholder="Contact Number"/>
+          <input type="email" name="contact_email" id="contact_email" required placeholder="Email Address"/>
         </div>
         <div class="col-6 col-12-xsmall">
-          <input type="email" name="contact_email" id="contact_email" required placeholder="Email Address"/>
+          <input type="text" name="contact_number" id="contact_number" required placeholder="Contact Number"/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="website" id="website" required placeholder="Website Address"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
         </div>
       </div>
       <div class="row gtr-uniform">
@@ -75,6 +82,45 @@
     <p>{{for_display[3]}}</p>
     <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
   </section>
+
+    {% elif for_display[0] == 'view_suppliers' %}
+  <div class="inner">
+    <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Website<p>Email</p></th>
+            <th>Contact Person<p>Tel</p></th>
+            <th>Address</th>
+            <th>Update</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for supplier in for_display[3] %}
+          <tr>
+            <td>{{supplier['name']}}</td>
+            <td>{{supplier['website']}}<p>{{supplier['contact_email']}}</p></td>
+            <td>{{supplier['contact_person']}}<p>{{supplier['contact_number']}}</p></td>
+            <td><pre>{{supplier['address']}}</pre></td>
+            <td>
+              <form action="suppliers" method="post">
+                <input type="hidden" value="update" name="todo"/>
+                <input type="hidden" value="{{supplier['id']}}" name="supplier"/>
+                <input type="submit" value="Update" class="button small fit"/>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+      </div>
+    </section>
+  </div>
 
   {% endif %}
 

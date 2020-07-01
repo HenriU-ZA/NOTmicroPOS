@@ -121,6 +121,60 @@
       </div>
     </section>
   </div>
+  {% elif for_display[0] == 'update' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <form method="post" action="suppliers">
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="name" value="{{for_display[3].name}}" required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_person" value="{{for_display[3].contact_person}}"
+                 required/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="email" name="contact_email" required value="{{for_display[3].contact_email}}"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_number" required value="{{for_display[3].contact_number}}" />
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="website" required value="{{for_display[3].website}}"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <textarea name="address" rows="6" >{{for_display[3].address}}</textarea>
+        </div>
+      </div>
+      <br>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="hidden" value="updating_supplier" name="todo"/>
+          <input type="hidden" value="{{for_display[3].id}}" name="id"/>
+          <input type="submit" value="Update Details" class="button small fit"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <a href="{{url_for('suppliers')}}" class="button small fit">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+  {% elif for_display[0] == 'updating_supplier' %}
+  <section>
+    <h1>{{for_display[1]}}</h1><hr>
+    <h4>{{for_display[2]}}</h4><hr>
+    <p>{{for_display[3]}}</p>
+    <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+  </section>
 
   {% endif %}
 

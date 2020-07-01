@@ -6,7 +6,7 @@ class Supplier:
         self.id = id
         self.name = name
         self.contact_person = contact_person
-        self.contact_nr = contact_number
+        self.contact_number = contact_number
         self.contact_email = contact_email
         self.address = address
         self.website = website
@@ -18,7 +18,7 @@ class Supplier:
     def load_details_from_db(cls, id):
         """This module loads a user from the database, using the user code."""
         with CursorFromConnectionFromPool() as cursor:
-            cursor.execute('SELECT * FROM details WHERE _id=%s', (id,))
+            cursor.execute('SELECT * FROM suppliers WHERE _id=%s', (id,))
             details = cursor.fetchone()
             if details:
                 return cls(id=details[0],
@@ -52,10 +52,13 @@ class Supplier:
                 'VALUES(%s, %s, %s, %s, %s, %s)',
                 (name, contact_person, contact_number, contact_email, address, website))
 
-    def update_details(self, new):
-        self.name = new['name']
-        self.contact_person = new['contact_person']
-        self.contact_nr = new['contact_number']
-        self.contact_email = new['contact_email']
-        self.address = new['address']
-        self.website = new['website']
+    @classmethod
+    def update_details(cls, data):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute(
+                'UPDATE suppliers SET name=%s, contact_person=%s, contact_number=%s, contact_email=%s, address=%s, '
+                'website=%s WHERE _id=%s',
+                (data['name'], data['contact_person'], data['contact_number'], data['contact_email'], data['address'],
+                 data['website'],
+                 data['id']))
+            return True

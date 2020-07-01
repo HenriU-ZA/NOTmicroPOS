@@ -63,3 +63,12 @@ def suppliers_page_formats(data):
         return [data['todo'], 'Created new supplier', 'You have attempted to create a new supplier', result]
     elif data['todo'] == 'view_suppliers':
         return [data['todo'], 'View Suppliers', 'A list of all registered suppliers', Supplier.view_all_suppliers()]
+    elif data['todo'] == 'update':
+        return [data['todo'], 'Update Supplier', 'Update the supplier details below',
+                Supplier.load_details_from_db(data['supplier'])]
+    elif data['todo'] == 'updating_supplier':
+        message = "a"
+        if Supplier.update_details(data):
+            message = "Update Successful!"
+        return [data['todo'], 'Updating Supplier', 'Supplier details is being updated', message]
+        # return [data['todo'], data['cc'], data, message]

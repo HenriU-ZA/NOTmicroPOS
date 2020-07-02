@@ -1,4 +1,5 @@
 from pyscripts.user import User
+from pyscripts.stock_setup import create_category
 from pyscripts.suppliers import Supplier
 from pyscripts.refactor import encrypt_password
 from pyscripts.details import Details
@@ -71,4 +72,15 @@ def suppliers_page_formats(data):
         if Supplier.update_details(data):
             message = "Update Successful!"
         return [data['todo'], 'Updating Supplier', 'Supplier details is being updated', message]
-        # return [data['todo'], data['cc'], data, message]
+
+
+def stock_setup_page_formats(data):
+    if data['todo'] == 'new_category':
+
+        return [data['todo'], 'Create new stock category', 'Enter name for the new stock category']
+    elif data['todo'] == 'creating_category':
+        if create_category(data):
+            message = 'Success!'
+        else:
+            message = 'Fail!'
+        return [data['todo'], 'Creating new stock category', 'Trying to create a new stock category', message]

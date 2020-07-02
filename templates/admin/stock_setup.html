@@ -1,0 +1,161 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+  {% if not request.method == 'POST' %}
+  <div class="inner">
+    <section>
+      <h1>Stock Setup</h1>
+      <h4>This page will access features related to stock setups.</h4>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+          <form action="stock_setup" method="post">
+            <input type="hidden" value="new_category" name="todo"/>
+            <input type="submit" value="Create Stock Category" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+          <form action="suppliers" method="post">
+            <input type="hidden" value="view_categories" name="todo"/>
+            <input type="submit" value="View Suppliers" class="button small fit"/>
+          </form>
+        </div>
+        <div class="col-6 col-12-medium">
+        </div>
+        <div class="col-6 col-12-medium">
+
+        </div>
+      </div>
+    </section>
+  </div>
+  {% endif %}
+  {% if for_display[0] == 'new_category' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <form method="post" action="stock_setup">
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="category_name" placeholder="Category" required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+        </div>
+      </div>
+      <br>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="hidden" value="creating_category" name="todo"/>
+          <input type="submit" value="Create New Category" class="button small fit"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <a href="{{url_for('stock_setup')}}" class="button small fit">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+  {% elif for_display[0] == 'creating_category' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <p>{{for_display[3]}}</p>
+    <a href="{{url_for('stock_setup')}}" class="button primary">Back</a>
+  </section>
+
+    {% elif for_display[0] == 'view_suppliers' %}
+  <div class="inner">
+    <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Website<p>Email</p></th>
+            <th>Contact Person<p>Tel</p></th>
+            <th>Address</th>
+            <th>Update</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for supplier in for_display[3] %}
+          <tr>
+            <td>{{supplier['name']}}</td>
+            <td>{{supplier['website']}}<p>{{supplier['contact_email']}}</p></td>
+            <td>{{supplier['contact_person']}}<p>{{supplier['contact_number']}}</p></td>
+            <td><pre>{{supplier['address']}}</pre></td>
+            <td>
+              <form action="suppliers" method="post">
+                <input type="hidden" value="update" name="todo"/>
+                <input type="hidden" value="{{supplier['id']}}" name="supplier"/>
+                <input type="submit" value="Update" class="button small fit"/>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+      </div>
+    </section>
+  </div>
+  {% elif for_display[0] == 'update' %}
+  <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <form method="post" action="suppliers">
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="name" value="{{for_display[3].name}}" required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_person" value="{{for_display[3].contact_person}}"
+                 required/>
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="email" name="contact_email" required value="{{for_display[3].contact_email}}"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="contact_number" required value="{{for_display[3].contact_number}}" />
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="text" name="website" required value="{{for_display[3].website}}"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+        </div>
+      </div>
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <textarea name="address" rows="6" >{{for_display[3].address}}</textarea>
+        </div>
+      </div>
+      <br>
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="hidden" value="updating_supplier" name="todo"/>
+          <input type="hidden" value="{{for_display[3].id}}" name="id"/>
+          <input type="submit" value="Update Details" class="button small fit"/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+          <a href="{{url_for('suppliers')}}" class="button small fit">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </section>
+  {% elif for_display[0] == 'updating_supplier' %}
+  <section>
+    <h1>{{for_display[1]}}</h1><hr>
+    <h4>{{for_display[2]}}</h4><hr>
+    <p>{{for_display[3]}}</p>
+    <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+  </section>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

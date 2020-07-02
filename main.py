@@ -63,6 +63,19 @@ def dashboard():
                                for_display=for_display)
     return redirect(url_for('login'))
 
+@app.route('/stock_setup', methods=['GET', 'POST'])
+def stock_setup():
+    if g.user:
+        if g.user.account_type == FunctionData.load_from_db_by_name('superuser').access:
+            for_display = None
+            if request.method == 'POST':
+                for_display = pageformats.stock_setup_page_formats(request.form)
+            return render_template('admin/stock_setup.html',
+                                   pg_data=FunctionData.format_page_data('stock_setup', g.user.name),
+                                   for_display=for_display)
+        return redirect(url_for('index'))
+    return redirect(url_for('login'))
+
 
 @app.route('/superuser', methods=['GET', 'POST'])
 def superuser():

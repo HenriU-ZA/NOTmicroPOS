@@ -27,10 +27,23 @@
           </form>
         </div>
         <div class="col-6 col-12-medium">
-
+          <form action="superuser" method="post">
+            <input type="hidden" value="disabled_cats" name="todo"/>
+            <input type="submit" value="Disabled Stock Categories" class="button small fit"/>
+          </form>
         </div>
       </div>
+      <div class="row">
+        <div class="col-6 col-12-medium">
 
+        </div>
+        <div class="col-6 col-12-medium">
+          <form action="superuser" method="post">
+            <input type="hidden" value="disabled_supps" name="todo"/>
+            <input type="submit" value="Disabled Suppliers" class="button small fit"/>
+          </form>
+        </div>
+</div>
     </section>
   </div>
   {% endif %}
@@ -191,6 +204,102 @@
   <h4>{{for_display[0]}}</h4>
   <a href="{{url_for('superuser')}}" class="button primary">Back</a>
 
+  {% elif for_display[0] == 'disabled_cats' %}
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+              <tr>
+                <th>Category</th>
+                <th>ID</th>
+                <th>Enable</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% if for_display[3] %}
+              {% for category in for_display[3] %}
+              <tr>
+                <td>{{category['category_name']}}</td>
+                <td>{{category['category_id']}}</td>
+                 <td>
+              <form action="superuser" method="post">
+                <input type="hidden" value="enable_cat" name="todo"/>
+                <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
+                <input type="submit" value="X " class="icon brands style1"/>
+              </form>
+            </td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+              </tbody>
+            </table>
+            <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  {% elif for_display[0] == 'enable_cat' %}
+    <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  </section>
+  {% elif for_display[0] == 'disabled_supps' %}
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Enable</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% if for_display[3] %}
+              {% for supplier in for_display[3] %}
+              <tr>
+                <td>{{supplier['name']}}</td>
+                <td>{{supplier['id']}}</td>
+                 <td>
+              <form action="superuser" method="post">
+                <input type="hidden" value="enable_supp" name="todo"/>
+                <input type="hidden" value="{{supplier['id']}}" name="supp_id"/>
+                <input type="submit" value="X " class="icon brands style1"/>
+              </form>
+            </td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+              </tbody>
+            </table>
+            <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  {% elif for_display[0] == 'enable_supp' %}
+    <section>
+    <h1>{{for_display[1]}}</h1>
+    <h4>{{for_display[2]}}</h4>
+    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  </section>
 
   {% endif %}
 

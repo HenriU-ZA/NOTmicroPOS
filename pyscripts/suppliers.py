@@ -30,10 +30,10 @@ class Supplier:
                            website=details[6])
 
     @classmethod
-    def view_all_suppliers(cls):
+    def view_all_suppliers(cls, enable='y'):
         """Returns all suppliers."""
         with CursorFromConnectionFromPool() as cursor:
-            cursor.execute('SELECT * FROM suppliers ORDER BY name ASC ')
+            cursor.execute('SELECT * FROM suppliers WHERE enable=%s ORDER BY name ASC', (enable,))
             suppliers = cursor.fetchall()
             if suppliers:
                 better_suppliers = []
@@ -61,4 +61,12 @@ class Supplier:
                 (data['name'], data['contact_person'], data['contact_number'], data['contact_email'], data['address'],
                  data['website'],
                  data['id']))
+            return True
+
+    @classmethod
+    def toggle_suppliers(cls, id, enable):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute(
+                'UPDATE suppliers SET enable=%s WHERE _id=%s',
+                (enable, id))
             return True

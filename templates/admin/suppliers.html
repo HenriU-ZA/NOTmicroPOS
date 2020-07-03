@@ -97,6 +97,7 @@
             <th>Contact Person<p>Tel</p></th>
             <th>Address</th>
             <th>Update</th>
+            <th>Remove</th>
           </tr>
           </thead>
           <tbody>
@@ -111,6 +112,13 @@
                 <input type="hidden" value="update" name="todo"/>
                 <input type="hidden" value="{{supplier['id']}}" name="supplier"/>
                 <input type="submit" value="Update" class="button small fit"/>
+              </form>
+            </td>
+            <td>
+              <form action="suppliers" method="post">
+                <input type="hidden" value="disable_supp" name="todo"/>
+                <input type="hidden" value="{{supplier['id']}}" name="disable_id"/>
+                <input type="submit" value="X" class="icon brands style1"/>
               </form>
             </td>
           </tr>
@@ -148,6 +156,8 @@
           <input type="text" name="website" required value="{{for_display[3].website}}"/>
         </div>
         <div class="col-6 col-12-xsmall">
+
+
         </div>
       </div>
       <div class="row gtr-uniform">
@@ -173,6 +183,12 @@
     <h1>{{for_display[1]}}</h1><hr>
     <h4>{{for_display[2]}}</h4><hr>
     <p>{{for_display[3]}}</p>
+    <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
+  </section>
+  {% elif for_display[0] == 'disable_supp' %}
+  <section>
+    <h1>{{for_display[1]}}</h1><hr>
+    <h4>{{for_display[2]}}</h4><hr>
     <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
   </section>
 

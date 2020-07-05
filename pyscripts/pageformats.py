@@ -1,5 +1,5 @@
 from pyscripts.user import User
-from pyscripts.stock_setup import create_category, load_all_categories, toggle_enabled
+import pyscripts.stock_setup as stock_setup
 from pyscripts.suppliers import Supplier
 from pyscripts.refactor import encrypt_password
 from pyscripts.details import Details
@@ -32,13 +32,23 @@ def superuser_page_formats(todo):
         Details.save_details_do_db(g.details)
         return ['Details has been updated!', todo['todo']]
     elif todo['todo'] == 'disabled_cats':
-        return [todo['todo'], 'View Stock Categories', 'See all stock categories', load_all_categories("n")]
+        return [todo['todo'], 'View Stock Categories', 'See all stock categories', stock_setup.load_all_categories("n")]
     elif todo['todo'] == 'enable_cat':
-        return [todo['todo'], 'Re-Enabled Category', 'This category has been reinstated', toggle_enabled(todo, 'y')]
+        return [todo['todo'], 'Re-Enabled Category', 'This category has been reinstated',
+                stock_setup.toggle_enabled(todo, 'y')]
+    elif todo['todo'] == 'rename_cat':
+        return [todo['todo'], 'Rename Category', 'This category will be renamed',
+                stock_setup.load_one_category(todo['cat_id'])]
+    elif todo['todo'] == 'rename_cat_go':
+        stock_setup.rename_category(todo)
+        message = "Renamed Successfully."
+        return [todo['todo'], 'Rename Category', message]
     elif todo['todo'] == 'disabled_supps':
         return [todo['todo'], 'View Disabled Suppliers', 'See all disabled Suppliers', Supplier.view_all_suppliers("n")]
     elif todo['todo'] == 'enable_supp':
-        return [todo['todo'], 'Re-Enabled Supplier', 'This supplier has been reinstated', Supplier.toggle_suppliers(todo['supp_id'], 'y')]
+        return [todo['todo'], 'Re-Enabled Supplier', 'This supplier has been reinstated',
+                Supplier.toggle_suppliers(todo['supp_id'], 'y')]
+
     else:
         return [None, None]
 
@@ -81,19 +91,23 @@ def suppliers_page_formats(data):
             message = "Update Successful!"
         return [data['todo'], 'Updating Supplier', 'Supplier details is being updated', message]
     elif data['todo'] == 'disable_supp':
-        return [data['todo'], 'Removed Supplier', 'This supplier has been removed', Supplier.toggle_suppliers(data['disable_id'], 'n')]
+        return [data['todo'], 'Removed Supplier', 'This supplier has been removed',
+                Supplier.toggle_suppliers(data['disable_id'], 'n')]
 
 
 def stock_setup_page_formats(data):
     if data['todo'] == 'new_category':
         return [data['todo'], 'Create new stock category', 'Enter name for the new stock category']
     elif data['todo'] == 'creating_category':
-        if create_category(data):
+        if stock_setup.create_category(data):
             message = 'Success!'
         else:
             message = 'Fail!'
         return [data['todo'], 'Creating new stock category', 'Trying to create a new stock category', message]
     elif data['todo'] == 'view_categories':
-        return [data['todo'], 'View Stock Categories', 'See all stock categories', load_all_categories()]
+        return [data['todo'], 'View Stock Categories', 'See all stock categories', stock_setup.load_all_categories()]
     elif data['todo'] == 'disable':
-        return [data['todo'], 'Removed Category', 'This category has been removed', toggle_enabled(data, 'n')]
+        return [data['todo'], 'Removed Category', 'This category has been removed', stock_setup.toggle_enabled(data, 'n')]
+    elif data['todo'] == 'new_stock_item':
+        return [data['todo']]
+

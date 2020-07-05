@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+  <!-- Menu selection -->
   {% if not request.method == 'POST' %}
   <div class="inner">
     <section>
@@ -21,6 +22,10 @@
           </form>
         </div>
         <div class="col-6 col-12-medium">
+          <form action="stock_setup" method="post">
+            <input type="hidden" value="new_stock_item" name="todo"/>
+            <input type="submit" value="Create Stock Item" class="button small fit"/>
+          </form>
         </div>
         <div class="col-6 col-12-medium">
 
@@ -29,6 +34,7 @@
     </section>
   </div>
   {% endif %}
+  <!-- Form for creating a new category -->
   {% if for_display[0] == 'new_category' %}
   <section>
     <h1>{{for_display[1]}}</h1>
@@ -53,14 +59,17 @@
       </div>
     </form>
   </section>
+  <!-- Actions the creation of new category -->
   {% elif for_display[0] == 'creating_category' %}
-  <section>
-    <h1>{{for_display[1]}}</h1>
-    <h4>{{for_display[2]}}</h4>
-    <p>{{for_display[3]}}</p>
-    <a href="{{url_for('stock_setup')}}" class="button primary">Back</a>
-  </section>
-
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <p>{{for_display[3]}}</p>
+      <a href="{{url_for('stock_setup')}}" class="button primary">Back</a>
+    </section>
+  </div>
+  <!-- Displays a list of all available stock categories -->
   {% elif for_display[0] == 'view_categories' %}
   <div class="inner">
     <section>
@@ -83,13 +92,13 @@
               <tr>
                 <td>{{category['category_name']}}</td>
                 <td>{{category['category_id']}}</td>
-                 <td>
-              <form action="stock_setup" method="post">
-                <input type="hidden" value="disable" name="todo"/>
-                <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
-                <input type="submit" value="X " class="icon brands style1"/>
-              </form>
-            </td>
+                <td>
+                  <form action="stock_setup" method="post">
+                    <input type="hidden" value="disable" name="todo"/>
+                    <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
+                    <input type="submit" value="X " class="icon brands style1"/>
+                  </form>
+                </td>
               </tr>
               {% endfor %}
               </tbody>
@@ -101,12 +110,95 @@
 
     </section>
   </div>
+  <!-- Disables the stock category -->
   {% elif for_display[0] == 'disable' %}
-  <section>
-    <h1>{{for_display[1]}}</h1>
-    <h4>{{for_display[2]}}</h4>
-    <a href="{{url_for('stock_setup')}}" class="button primary">Back</a>
-  </section>
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <a href="{{url_for('stock_setup')}}" class="button primary">Back</a>
+    </section>
+  </div>
+  <!-- Form to create a new stock item -->
+  {% elif for_display[0] == 'new_stock_item' %}
+  <div class="inner">
+    <section>
+      <h1>Create stock item:</h1>
+      <h4>Please enter the details below.</h4>
+      <form method="post" action="stock_setup">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="text" name="item_name" placeholder="Item Name" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>The item should be easily identified by the item name.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="number" name="item_cost" placeholder="Item Cost Price" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>The cost of the item should reflect the total price the supplier charges for it.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="number" name="labour_charge" placeholder="Labour Charged" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>If there is any labour involved in preparing the item for sale, it should be included.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="number" name="retail_price" placeholder="Retail Price" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>This should be the total price the item is being sold for, including labour.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <select name="stock_category" required>
+              {% for title in job_titles %}
+              <option value="{{title['name']}}">{{title['name']}}</option>
+              {% endfor %}
+            </select></div>
+          <div class="col-6 col-12-xsmall">
+            <p>Select a category for the stock item. If the correct category does not exist, please create it first.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <select name="supplier" required>
+              {% for title in job_titles %}
+              <option value="{{title['name']}}">{{title['name']}}</option>
+              {% endfor %}
+            </select></div>
+          <div class="col-6 col-12-xsmall">
+            <p>Select a supplier for the stock item. If the correct supplier does not exist, please create it first.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="col-12">
+          <input type="hidden" value="create_item" name="todo"/>
+          <ul class="actions">
+            <li><input type="submit" value="Create Item" class="primary"/></li>
+            <li><input type="reset" value="Reset Form" class="primary"/></li>
+            <li><a href="{{url_for('stock_setup')}}" class="button primary">Cancel</a></li>
+          </ul>
+        </div>
+
+      </form>
+
+    </section>
+  </div>
 
   {% endif %}
 

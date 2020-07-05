@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+  <!--Shows Menu when no option is selected. -->
   {% if not request.method == 'POST' %}
   <div class="inner">
     <section>
@@ -43,10 +44,11 @@
             <input type="submit" value="Disabled Suppliers" class="button small fit"/>
           </form>
         </div>
-</div>
+      </div>
     </section>
   </div>
   {% endif %}
+  <!--View Userss -->
   {% if for_display[1] == 'view_users' %}
   <div class="inner">
     <section>
@@ -91,6 +93,7 @@
       </div>
     </section>
   </div>
+  <!--Form to add a new user-->
   {% elif for_display[1] == 'add_user' %}
   <div class="inner">
     <section>
@@ -117,6 +120,7 @@
 
     </section>
   </div>
+  <!-- Actions the creation of a new user -->
   {% elif for_display[1] == 'creating' %}
   <div class="inner">
     <section>
@@ -125,6 +129,7 @@
       <a href="{{url_for('superuser')}}" class="button primary">Back</a>
     </section>
   </div>
+  <!--Form to rename a user -->
   {% elif for_display[1] == 'rename' %}
   <div class="inner">
     <section>
@@ -146,17 +151,23 @@
           </div>
         </div>
       </form>
-
     </section>
   </div>
+  <!-- Actions the user rename -->
   {% elif for_display[1] == 'renaming' %}
-  <h1>Renamed User</h1>
-  <h4>{{for_display[0]}}</h4>
-  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  <div class="inner">
+    <h1>Renamed User</h1>
+    <h4>{{for_display[0]}}</h4>
+    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  </div>
+  <!-- Actions the password reset for a user -->
   {% elif for_display[1] == 'reset' %}
-  <h1>Password Reset</h1>
-  <h4>{{for_display[0]}}</h4>
-  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  <div class="inner">
+    <h1>Password Reset</h1>
+    <h4>{{for_display[0]}}</h4>
+    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  </div>
+  <!-- Form to update business details -->
   {% elif for_display[1] == 'update_details' %}
   <div class="inner">
     <section>
@@ -179,14 +190,15 @@
           </div>
           <div class="col-6 col-12-xsmall">
             Alternate Contact Person:
-            <input type="text" name="contact_alt_person" id="contact_alt_person" value="{{g.details.contact_alt_person}}" required/>
+            <input type="text" name="contact_alt_person" id="contact_alt_person"
+                   value="{{g.details.contact_alt_person}}" required/>
           </div>
           <div class="col-6 col-12-xsmall">
             Alternate Contact Number:
             <input type="text" name="contact_alt" id="contact_alt" value="{{g.details.contact_alt}}" required/>
           </div>
           <div class="col-12">
-            <textarea name="address" id="address"  rows="6">{{g.details.address}}</textarea>
+            <textarea name="address" id="address" rows="6">{{g.details.address}}</textarea>
           </div>
           <div class="col-12">
             <ul class="actions">
@@ -199,11 +211,14 @@
 
     </section>
   </div>
+  <!-- Actions the update of business details -->
   {% elif for_display[1] == 'updating' %}
-  <h1>Updated Details</h1>
-  <h4>{{for_display[0]}}</h4>
-  <a href="{{url_for('superuser')}}" class="button primary">Back</a>
-
+  <div class="inner">
+    <h1>Updated Details</h1>
+    <h4>{{for_display[0]}}</h4>
+    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+  </div>
+  <!-- Shows a list of disabled stock categories -->
   {% elif for_display[0] == 'disabled_cats' %}
   <div class="inner">
     <section>
@@ -219,6 +234,7 @@
                 <th>Category</th>
                 <th>ID</th>
                 <th>Enable</th>
+                <th>Rename</th>
               </tr>
               </thead>
               <tbody>
@@ -227,13 +243,20 @@
               <tr>
                 <td>{{category['category_name']}}</td>
                 <td>{{category['category_id']}}</td>
-                 <td>
-              <form action="superuser" method="post">
-                <input type="hidden" value="enable_cat" name="todo"/>
-                <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
-                <input type="submit" value="X " class="icon brands style1"/>
-              </form>
-            </td>
+                <td>
+                  <form action="superuser" method="post">
+                    <input type="hidden" value="enable_cat" name="todo"/>
+                    <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
+                    <input type="submit" value="X " class="icon brands style1"/>
+                  </form>
+                </td>
+                <td>
+                  <form action="superuser" method="post">
+                    <input type="hidden" value="rename_cat" name="todo"/>
+                    <input type="hidden" value="{{category['category_id']}}" name="cat_id"/>
+                    <input type="submit" value="R" class="icon brands style1"/>
+                  </form>
+                </td>
               </tr>
               {% endfor %}
               {% endif %}
@@ -246,12 +269,48 @@
 
     </section>
   </div>
-  {% elif for_display[0] == 'enable_cat' %}
+  <!-- Form to rename a category -->
+  {% elif for_display[0] == 'rename_cat' %}
+    <div class="inner">
     <section>
-    <h1>{{for_display[1]}}</h1>
-    <h4>{{for_display[2]}}</h4>
-    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
-  </section>
+      <h1>Rename category:</h1>
+      <h4>Type the new name for the category.</h4>
+      <form method="post" action="superuser">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="hidden" value="rename_cat_go" name="todo"/>
+            <input type="hidden" name="cat_id" value="{{for_display[3]['category_id']}}"/>
+            <input type="text" name="new_name" value="{{for_display[3]['category_name']}}" />
+          </div>
+          <div class="col-12">
+            <ul class="actions">
+              <li><input type="submit" value="Rename Category" class="primary"/></li>
+              <li><a href="{{url_for('superuser')}}" class="button primary">Cancel</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+  <!-- Action the renaming of a category -->
+  {% elif for_display[0] == 'rename_cat_go' %}
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+    </section>
+  </div>
+  <!-- Actions the re-enablement of a disabled category -->
+  {% elif for_display[0] == 'enable_cat' %}
+  <div class="inner">
+    <section>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+    </section>
+  </div>
+  <!-- Lists the disabled suppliers -->
   {% elif for_display[0] == 'disabled_supps' %}
   <div class="inner">
     <section>
@@ -275,13 +334,13 @@
               <tr>
                 <td>{{supplier['name']}}</td>
                 <td>{{supplier['id']}}</td>
-                 <td>
-              <form action="superuser" method="post">
-                <input type="hidden" value="enable_supp" name="todo"/>
-                <input type="hidden" value="{{supplier['id']}}" name="supp_id"/>
-                <input type="submit" value="X " class="icon brands style1"/>
-              </form>
-            </td>
+                <td>
+                  <form action="superuser" method="post">
+                    <input type="hidden" value="enable_supp" name="todo"/>
+                    <input type="hidden" value="{{supplier['id']}}" name="supp_id"/>
+                    <input type="submit" value="X " class="icon brands style1"/>
+                  </form>
+                </td>
               </tr>
               {% endfor %}
               {% endif %}
@@ -294,13 +353,15 @@
 
     </section>
   </div>
+  <!-- Actions the re-enablement of a supplier -->
   {% elif for_display[0] == 'enable_supp' %}
+  <div class="inner">
     <section>
-    <h1>{{for_display[1]}}</h1>
-    <h4>{{for_display[2]}}</h4>
-    <a href="{{url_for('superuser')}}" class="button primary">Back</a>
-  </section>
-
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
+      <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+    </section>
+  </div>
   {% endif %}
 
 </div>

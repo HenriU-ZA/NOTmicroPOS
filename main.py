@@ -63,6 +63,18 @@ def dashboard():
                                for_display=for_display)
     return redirect(url_for('login'))
 
+@app.route('/stockbook', methods=['GET', 'POST'])
+def stockbook():
+    if g.user:
+        for_display = None
+        if request.method == 'POST':
+            for_display = pageformats.view_stock_page_formats(request.form)
+        return render_template('admin/stockbook.html',
+                               pg_data=FunctionData.format_page_data('stockbook', g.user.name),
+                               for_display=for_display)
+    return redirect(url_for('login'))
+
+
 @app.route('/stock_setup', methods=['GET', 'POST'])
 def stock_setup():
     if g.user:

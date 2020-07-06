@@ -109,5 +109,10 @@ def stock_setup_page_formats(data):
     elif data['todo'] == 'disable':
         return [data['todo'], 'Removed Category', 'This category has been removed', stock_setup.toggle_enabled(data, 'n')]
     elif data['todo'] == 'new_stock_item':
-        return [data['todo']]
+        return [data['todo'], Supplier.view_all_suppliers(), stock_setup.load_all_categories()]
+    elif data['todo'] == 'stock_create':
+        return [data['todo'], 'Created Stock Item', 'Item has been created', stock_setup.create_stock_item(data)]
 
+
+def view_stock_page_formats(data):
+    pass

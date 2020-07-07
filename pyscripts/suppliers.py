@@ -48,9 +48,9 @@ class Supplier:
         """This module will save a new user to the database"""
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute(
-                'INSERT INTO suppliers(name, contact_person, contact_number, contact_email, address, website) '
-                'VALUES(%s, %s, %s, %s, %s, %s)',
-                (name, contact_person, contact_number, contact_email, address, website))
+                'INSERT INTO suppliers(name, contact_person, contact_number, contact_email, address, website, enable) '
+                'VALUES(%s, %s, %s, %s, %s, %s, %s)',
+                (name, contact_person, contact_number, contact_email, address, website, 'y'))
 
     @classmethod
     def update_details(cls, data):

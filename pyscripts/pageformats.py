@@ -1,7 +1,8 @@
 from pyscripts.user import User
 import pyscripts.stock_setup as stock_setup
+import pyscripts.stockbook as stockbook
 from pyscripts.suppliers import Supplier
-from pyscripts.refactor import encrypt_password
+import pyscripts.refactor as refactor
 from pyscripts.details import Details
 from pyscripts.confirm import confirm_passwords
 from flask import g
@@ -22,7 +23,7 @@ def superuser_page_formats(todo):
             return ['Name change successful.', todo['todo']]
     elif todo['todo'] == 'reset':
         message = "Something went wrong. Password was not reset."
-        if User.reset_user('password', encrypt_password("1234"), todo['user']):
+        if User.reset_user('password', refactor.encrypt_password("1234"), todo['user']):
             message = "Password reset has been successful."
         return [message, todo['todo']]
     elif todo['todo'] == 'update_details':
@@ -62,7 +63,7 @@ def dashboard_page_formats(data):
         message = None
         check = confirm_passwords(data['current_password'], data['new_password'], data['confirm_password'])
         if check[0]:
-            if User.reset_user('password', encrypt_password(data['new_password']), g.user._id):
+            if User.reset_user('password', refactor.encrypt_password(data['new_password']), g.user._id):
                 message = 'Password Change was successful!'
         else:
             message = check[1]
@@ -115,4 +116,12 @@ def stock_setup_page_formats(data):
 
 
 def view_stock_page_formats(data):
-    pass
+    stock = None
+    if data['todo'] == 'view_stock' and data['what'] == 'all':
+        stock = refactor.ammend_stock(stockbook.get_all_stock())
+
+    elif data['todo'] == 'view_stock' and data['what'] == 'service':
+        stock = refactor.ammend_stock(stockbook.get_all_stock('y', 'y'))
+
+    return [data['todo'], stock, refactor.count_cost(stock)]
+

@@ -12,10 +12,10 @@ def create_stock_item(data):
     with CursorFromConnectionFromPool() as cursor:
         cursor.execute(
             'INSERT INTO stock_items(item_name, item_cost, labour_charge, retail_price, stock_category_id, stock_qty, '
-            'order_qty, supplier_id, service_item) '
-            'VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)', (
+            'order_qty, supplier_id, service_item, active) '
+            'VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (
              data['item_name'], data['item_cost'], data['labour_charge'], data['retail_price'], data['stock_category'],
-             0, 0, data['supplier'], data['service']))
+             0, 0, data['supplier'], data['service'], 'y'))
         return True
 
 

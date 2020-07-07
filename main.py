@@ -63,6 +63,7 @@ def dashboard():
                                for_display=for_display)
     return redirect(url_for('login'))
 
+
 @app.route('/stockbook', methods=['GET', 'POST'])
 def stockbook():
     if g.user:

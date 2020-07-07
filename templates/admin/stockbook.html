@@ -1,12 +1,77 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <div class="container">
-        <div class="inner">
-					<section>
-            <h1>Stock Book</h1>
-            <p>Showing available stock</p>
-					</section>
-				</div>
-    </div>
+<div class="container">
+  <!-- HEADING -->
+  <div class="inner">
+    <section>
+      <h1>Stockbook</h1>
+      <h4>Use the options to view stock</h4>
+    </section>
+  </div>
+  <!-- MENU -->
+  <div class="inner">
+    <section>
+      <div class="row" align="right">
+        <form action="stockbook" method="post">
+          <input type="hidden" value="view_stock" name="todo"/>
+          <input type="hidden" value="all" name="what"/>
+          <input type="submit" value="View All Stock" class="button small"/>
+        </form>
+        <form action="stockbook" method="post">
+          <input type="hidden" value="view_stock" name="todo"/>
+          <input type="hidden" value="service" name="what"/>
+          <input type="submit" value="View All Services" class="button small"/>
+        </form>
+      </div>
+    </section>
+  </div>
+  {% if for_display[0] == 'view_stock' %}
+  <div class="inner">
+    <section>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Stock ID</th>
+            <th>Item Name</th>
+            <th>Unit Cost</th>
+            <th>Labour Charge</th>
+            <th>RRP</th>
+            <th>Category</th>
+            <th>QTY in stock</th>
+            <th>QTY on order</th>
+            <th>Supplier</th>
+            <th>Total Cost</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for item in for_display[1] %}
+          <tr>
+            <td>{{item['id']}}</td>
+            <td>{{item['item_name']}}</td>
+            <td align="right">{{'%0.2f'|format(item['item_cost']|float)}}</td>
+            <td align="right">{{'%0.2f'|format(item['labour_charge']|float)}}</td>
+            <td align="right">{{'%0.2f'|format(item['retail_price']|float)}}</td>
+            <td>{{item['stock_category_id']}}</td>
+            <td align="center">{{item['stock_qty']}}</td>
+            <td align="center">{{item['order_qty']}}</td>
+            <td>{{item['supplier_id']}}</td>
+            <td align="right">{{'%0.2f'|format(item['total_cost']|float)}}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="8"></td>
+            <td>Stock Value:</td>
+            <td align="right">{{'%0.2f'|format(for_display[2]|float)}}</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </div>
+  {% endif %}
+</div>
 {% endblock %}

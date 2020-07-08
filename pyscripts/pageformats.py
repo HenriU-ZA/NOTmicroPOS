@@ -118,10 +118,10 @@ def stock_setup_page_formats(data):
 def view_stock_page_formats(data):
     stock = None
     if data['todo'] == 'view_stock' and data['what'] == 'all':
-        stock = refactor.ammend_stock(stockbook.get_all_stock())
+        stock = refactor.ammend_stock(stockbook.get_all_stock(), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
 
     elif data['todo'] == 'view_stock' and data['what'] == 'service':
-        stock = refactor.ammend_stock(stockbook.get_all_stock('y', 'y'))
+        stock = refactor.ammend_stock(stockbook.get_all_stock('y', 'y'), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
 
-    return [data['todo'], stock, refactor.count_cost(stock)]
+    return [data['todo'], stock, refactor.count_cost(stock), data['cols']]
 

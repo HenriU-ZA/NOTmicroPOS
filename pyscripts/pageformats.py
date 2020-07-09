@@ -117,11 +117,15 @@ def stock_setup_page_formats(data):
 
 def view_stock_page_formats(data):
     stock = None
-    if data['todo'] == 'view_stock' and data['what'] == 'all':
-        stock = refactor.ammend_stock(stockbook.get_all_stock(), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+    # if data['todo'] == 'view_stock' and data['what'] == 'all':
+    #     stock = refactor.ammend_stock(stockbook.get_all_stock(), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+    #
+    # elif data['todo'] == 'view_stock' and data['what'] == 'service':
+    #     stock = refactor.ammend_stock(stockbook.get_all_stock('y', 'y'), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
 
-    elif data['todo'] == 'view_stock' and data['what'] == 'service':
-        stock = refactor.ammend_stock(stockbook.get_all_stock('y', 'y'), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+    if data['todo'] == 'view_stock' and data['what'] == 'search':
+        stockq = refactor.ammend_stock(stockbook.get_all_stock('y', data['s_i']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+        stock = refactor.stock_search(stockq, data['term'])
 
     return [data['todo'], stock, refactor.count_cost(stock), data['cols']]
 

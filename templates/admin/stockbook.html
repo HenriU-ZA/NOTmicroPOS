@@ -6,32 +6,63 @@
   <div class="inner">
     <section>
       <h1>Stockbook</h1>
-      <h4>Use the options to view stock</h4>
+      <h4>Search stock below.</h4>
     </section>
   </div>
   <!-- MENU -->
   <div class="inner">
     <section>
-      <div class="row" align="right">
-        <form action="stockbook" method="post">
-          <input type="hidden" value="view_stock" name="todo"/>
-          <input type="hidden" value="items" name="cols"/>
-          <input type="hidden" value="all" name="what"/>
-          <input type="submit" value="View Stock Items" class="button small"/>
-        </form>
-        <form action="stockbook" method="post">
-          <input type="hidden" value="view_stock" name="todo"/>
-          <input type="hidden" value="qty" name="cols"/>
-          <input type="hidden" value="all" name="what"/>
-          <input type="submit" value="View Stock Quantities" class="button small"/>
-        </form>
-        <form action="stockbook" method="post">
-          <input type="hidden" value="view_stock" name="todo"/>
-           <input type="hidden" value="items" name="cols"/>
-         <input type="hidden" value="service" name="what"/>
-          <input type="submit" value="View All Services" class="button small"/>
-        </form>
-      </div>
+      <!-- <div class="row gtr-uniform">
+       <div class="col-4 col-12-small">
+          <form action="stockbook" method="post">
+            <input type="hidden" value="view_stock" name="todo"/>
+            <input type="hidden" value="items" name="cols"/>
+            <input type="hidden" value="all" name="what"/>
+            <input type="submit" value="View Stock Items" class="button small"/>
+          </form>
+        </div>
+        <div class="col-4 col-12-small">
+          <form action="stockbook" method="post">
+            <input type="hidden" value="view_stock" name="todo"/>
+            <input type="hidden" value="qty" name="cols"/>
+            <input type="hidden" value="all" name="what"/>
+            <input type="submit" value="View Stock Quantities" class="button small"/>
+          </form>
+        </div>
+        <div class="col-4 col-12-small">
+          <form action="stockbook" method="post">
+            <input type="hidden" value="view_stock" name="todo"/>
+            <input type="hidden" value="items" name="cols"/>
+            <input type="hidden" value="service" name="what"/>
+            <input type="submit" value="View All Services" class="button small"/>
+          </form>
+        </div>
+      </div>-->
+      <form action="stockbook" method="post">
+        <div class="row gtr-uniform">
+
+          <div class="col-4 col-12-small">
+            <input type="text" name="term" placeholder="Item/Service/Category/Supplier (Blank for all)"/>
+            <input type="hidden" value="view_stock" name="todo"/>
+          </div>
+          <div class="col-2 col-12-small">
+            <select name="cols"  required>
+              <option value="items">Items</option>
+              <option value="qty">Quantities</option>
+            </select>
+          </div>
+          <div class="col-2 col-12-small">
+            <select name="s_i"  required>
+              <option value="n">Stock</option>
+              <option value="y">Service</option>
+            </select>
+          </div>
+          <div class="col-4 col-12-small">
+            <input type="hidden" value="search" name="what"/>
+            <input type="submit" value="Search" class="button small"/>
+          </div>
+        </div>
+      </form>
     </section>
   </div>
   <!-- Display stock Items -->

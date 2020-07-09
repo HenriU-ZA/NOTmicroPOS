@@ -28,3 +28,12 @@ def count_cost(stock):
         total_pend += item['pending_qty']
         total_orders += item['order_qty']
     return {'total_cost': total_cost, 'total_qty': total_qty, 'total_pend': total_pend, 'total_orders': total_orders}
+
+
+def stock_search(stock, term):
+    stocklist = []
+    for item in stock:
+        if term.lower() in item['item_name'].lower() or term.lower() in item['supplier_name'].lower() or term.lower() in \
+                item['category_name'].lower():
+            stocklist.append(item)
+    return stocklist

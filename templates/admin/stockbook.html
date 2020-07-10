@@ -46,13 +46,13 @@
             <input type="hidden" value="view_stock" name="todo"/>
           </div>
           <div class="col-2 col-12-small">
-            <select name="cols"  required>
+            <select name="cols" required>
               <option value="items">Items</option>
               <option value="qty">Quantities</option>
             </select>
           </div>
           <div class="col-2 col-12-small">
-            <select name="s_i"  required>
+            <select name="s_i" required>
               <option value="n">Stock</option>
               <option value="y">Service</option>
             </select>
@@ -80,6 +80,7 @@
             <th>RRP</th>
             <th>Category</th>
             <th>Supplier</th>
+            <th>Deactivate</th>
           </tr>
           </thead>
           <tbody>
@@ -92,6 +93,16 @@
             <td>{{'%0.2f'|format(item['retail_price']|float)}}</td>
             <td>{{item['category_name']}}</td>
             <td>{{item['supplier_name']}}</td>
+            <td>
+              <form action="stockbook" method="post">
+                <input type="hidden" value="disable" name="todo"/>
+                <input type="hidden" value="{{item['id']}}" name="item_id"/>
+                <input type="hidden" value="{{item['stock_qty']}}" name="c1"/>
+                <input type="hidden" value="{{item['order_qty']}}" name="c2"/>
+                <input type="hidden" value="{{item['pending_qty']}}" name="c3"/>
+                <input type="submit" value="X " class="icon brands style1"/>
+              </form>
+            </td>
           </tr>
           {% endfor %}
           </tbody>
@@ -149,6 +160,14 @@
       </div>
     </section>
   </div>
+  <!-- Actions the enable/disable stock items -->
+  {% elif for_display[0] == 'disable' or for_display[0] == 'enable' %}
+  <div class="inner">
+    <section>
+      <h4>{{for_display[1]}}</h4>
+    </section>
+  </div>
+
   {% endif %}
 </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+  <!-- View menu if nothing is selected -->
   {% if not request.method == 'POST' %}
   <div class="inner">
     <section>
@@ -29,6 +30,7 @@
     </section>
   </div>
   {% endif %}
+  <!-- FORM to create new supplier -->
   {% if for_display[0] == 'new_supplier' %}
   <section>
     <h1>{{for_display[1]}}</h1>
@@ -75,6 +77,7 @@
       </div>
     </form>
   </section>
+  <!-- Actions new supplier -->
   {% elif for_display[0] == 'create_supplier' %}
   <section>
     <h1>{{for_display[1]}}</h1>
@@ -82,12 +85,12 @@
     <p>{{for_display[3]}}</p>
     <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
   </section>
-
-    {% elif for_display[0] == 'view_suppliers' %}
+<!-- VIEWING suppliers -->
+  {% elif for_display[0] == 'view_suppliers' %}
   <div class="inner">
     <section>
-    <h1>{{for_display[1]}}</h1>
-    <h4>{{for_display[2]}}</h4>
+      <h1>{{for_display[1]}}</h1>
+      <h4>{{for_display[2]}}</h4>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -106,7 +109,9 @@
             <td>{{supplier['name']}}</td>
             <td>{{supplier['website']}}<p>{{supplier['contact_email']}}</p></td>
             <td>{{supplier['contact_person']}}<p>{{supplier['contact_number']}}</p></td>
-            <td><pre>{{supplier['address']}}</pre></td>
+            <td>
+              <pre>{{supplier['address']}}</pre>
+            </td>
             <td>
               <form action="suppliers" method="post">
                 <input type="hidden" value="update" name="todo"/>
@@ -129,6 +134,7 @@
       </div>
     </section>
   </div>
+  <!--Form to update suppliers -->
   {% elif for_display[0] == 'update' %}
   <section>
     <h1>{{for_display[1]}}</h1>
@@ -148,7 +154,7 @@
           <input type="email" name="contact_email" required value="{{for_display[3].contact_email}}"/>
         </div>
         <div class="col-6 col-12-xsmall">
-          <input type="text" name="contact_number" required value="{{for_display[3].contact_number}}" />
+          <input type="text" name="contact_number" required value="{{for_display[3].contact_number}}"/>
         </div>
       </div>
       <div class="row gtr-uniform">
@@ -162,7 +168,7 @@
       </div>
       <div class="row gtr-uniform">
         <div class="col-12">
-          <textarea name="address" rows="6" >{{for_display[3].address}}</textarea>
+          <textarea name="address" rows="6">{{for_display[3].address}}</textarea>
         </div>
       </div>
       <br>
@@ -178,17 +184,23 @@
       </div>
     </form>
   </section>
+  <!--Actions the supplier update -->
   {% elif for_display[0] == 'updating_supplier' %}
   <section>
-    <h1>{{for_display[1]}}</h1><hr>
-    <h4>{{for_display[2]}}</h4><hr>
+    <h1>{{for_display[1]}}</h1>
+    <hr>
+    <h4>{{for_display[2]}}</h4>
+    <hr>
     <p>{{for_display[3]}}</p>
     <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
   </section>
+  <!-- Disabling supplier -->
   {% elif for_display[0] == 'disable_supp' %}
   <section>
-    <h1>{{for_display[1]}}</h1><hr>
-    <h4>{{for_display[2]}}</h4><hr>
+    <h1>{{for_display[1]}}</h1>
+    <hr>
+    <h4>{{for_display[2]}}</h4>
+    <hr>
     <a href="{{url_for('suppliers')}}" class="button primary">Back</a>
   </section>
 

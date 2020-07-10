@@ -49,7 +49,9 @@ def superuser_page_formats(todo):
     elif todo['todo'] == 'enable_supp':
         return [todo['todo'], 'Re-Enabled Supplier', 'This supplier has been reinstated',
                 Supplier.toggle_suppliers(todo['supp_id'], 'y')]
-
+    elif todo['todo'] == 'view_stock':
+        stock = refactor.ammend_stock(stockbook.get_all_stock('n', todo['q']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+        return [todo['todo'], stock, refactor.count_cost(stock)]
     else:
         return [None, None]
 
@@ -116,7 +118,7 @@ def stock_setup_page_formats(data):
 
 
 def view_stock_page_formats(data):
-    stock = None
+    stockq = None
     # if data['todo'] == 'view_stock' and data['what'] == 'all':
     #     stock = refactor.ammend_stock(stockbook.get_all_stock(), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
     #
@@ -127,5 +129,14 @@ def view_stock_page_formats(data):
         stockq = refactor.ammend_stock(stockbook.get_all_stock('y', data['s_i']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
         stock = refactor.stock_search(stockq, data['term'])
 
-    return [data['todo'], stock, refactor.count_cost(stock), data['cols']]
+        return [data['todo'], stock, refactor.count_cost(stock), data['cols']]
+
+    elif data['todo'] == 'disable':
+        if data['c1'] == '0' and data['c2'] == '0' and data['c3'] == '0':
+            return [data['todo'], 'This item has been removed', stockbook.toggle_item('n', data['item_id'])]
+        else:
+            return [data['todo'], 'For items to be removed, there may not be any outstanding orders, or any items in stock']
+
+    elif data['todo'] == 'enable':
+        return [data['todo'], 'This item has been enabled', stockbook.toggle_item('y', data['item_id'])]
 

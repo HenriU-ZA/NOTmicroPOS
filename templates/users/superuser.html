@@ -36,6 +36,11 @@
       </div>
       <div class="row">
         <div class="col-6 col-12-medium">
+          <form action="superuser" method="post">
+            <input type="hidden" value="view_stock" name="todo"/>
+            <input type="hidden" value="n" name="q"/>
+            <input type="submit" value="Disabled Stock Items" class="button small fit"/>
+          </form>
 
         </div>
         <div class="col-6 col-12-medium">
@@ -43,6 +48,18 @@
             <input type="hidden" value="disabled_supps" name="todo"/>
             <input type="submit" value="Disabled Suppliers" class="button small fit"/>
           </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+          <form action="superuser" method="post">
+            <input type="hidden" value="view_stock" name="todo"/>
+            <input type="hidden" value="y" name="q"/>
+            <input type="submit" value="Disabled services" class="button small fit"/>
+          </form>
+
+        </div>
+        <div class="col-6 col-12-medium">
         </div>
       </div>
     </section>
@@ -66,6 +83,7 @@
           </tr>
           </thead>
           <tbody>
+          {% if for_display[0] != None %}
           {% for user in for_display[0] %}
           <tr>
             <td>{{user['username']}}</td>
@@ -87,6 +105,7 @@
             </td>
           </tr>
           {% endfor %}
+          {% endif %}
           </tbody>
         </table>
         <a href="{{url_for('superuser')}}" class="button primary">Back</a>
@@ -271,7 +290,7 @@
   </div>
   <!-- Form to rename a category -->
   {% elif for_display[0] == 'rename_cat' %}
-    <div class="inner">
+  <div class="inner">
     <section>
       <h1>Rename category:</h1>
       <h4>Type the new name for the category.</h4>
@@ -280,7 +299,7 @@
           <div class="col-6 col-12-xsmall">
             <input type="hidden" value="rename_cat_go" name="todo"/>
             <input type="hidden" name="cat_id" value="{{for_display[3]['category_id']}}"/>
-            <input type="text" name="new_name" value="{{for_display[3]['category_name']}}" />
+            <input type="text" name="new_name" value="{{for_display[3]['category_name']}}"/>
           </div>
           <div class="col-12">
             <ul class="actions">
@@ -362,6 +381,49 @@
       <a href="{{url_for('superuser')}}" class="button primary">Back</a>
     </section>
   </div>
+  <!-- Viewing disabled stock items -->
+  {% elif for_display[0] == 'view_stock' %}
+  <div class="inner">
+    <section>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Stock ID</th>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Activate</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% if for_display[1] %}
+          {% for item in for_display[1] %}
+          <tr>
+            <td>{{item['id']}}</td>
+            <td>{{item['item_name']}}</td>
+            <td>{{item['category_name']}}</td>
+            <td>{{item['supplier_name']}}</td>
+            <td>
+              <form action="stockbook" method="post">
+                <input type="hidden" value="enable" name="todo"/>
+                <input type="hidden" value="{{item['id']}}" name="item_id"/>
+                <input type="hidden" value="{{item['stock_qty']}}" name="c1"/>
+                <input type="hidden" value="{{item['order_qty']}}" name="c2"/>
+                <input type="hidden" value="{{item['pending_qty']}}" name="c3"/>
+                <input type="submit" value="X " class="icon brands style1"/>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+          </tbody>
+        </table>
+        <a href="{{url_for('superuser')}}" class="button primary">Back</a>
+      </div>
+    </section>
+  </div>
+
   {% endif %}
 
 </div>

@@ -33,3 +33,7 @@ def retrieve_category_names():
             for category in categories:
                 category_list.append({'category_id': category[0], 'category_name': category[1]})
             return category_list
+
+def toggle_item(active, item_id):
+    with CursorFromConnectionFromPool() as cursor:
+        cursor.execute('UPDATE stock_items SET active=%s WHERE id=%s', (active, item_id))

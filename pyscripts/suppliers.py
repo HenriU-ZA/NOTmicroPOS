@@ -2,7 +2,7 @@ from pyscripts.database import CursorFromConnectionFromPool
 
 
 class Supplier:
-    def __init__(self, id, name, contact_person, contact_number, contact_email, address, website):
+    def __init__(self, id, name, contact_person, contact_number, contact_email, address, website, credit_limit, account_balance):
         self.id = id
         self.name = name
         self.contact_person = contact_person
@@ -10,6 +10,8 @@ class Supplier:
         self.contact_email = contact_email
         self.address = address
         self.website = website
+        self.credit_limit = credit_limit
+        self.account_balance = account_balance
 
     def __repr__(self):
         return f"<Supplier {self.name}>"
@@ -27,7 +29,9 @@ class Supplier:
                            contact_number=details[3],
                            contact_email=details[4],
                            address=details[5],
-                           website=details[6])
+                           website=details[6],
+                           credit_limit=details[8],
+                           account_balance=details[9])
 
     @classmethod
     def view_all_suppliers(cls, enable='y'):
@@ -40,7 +44,8 @@ class Supplier:
                 for supplier in suppliers:
                     better_suppliers.append({'id': supplier[0], 'name': supplier[1], 'contact_person': supplier[2],
                                              'contact_number': supplier[3], 'contact_email': supplier[4],
-                                             'address': supplier[5], 'website': supplier[6]})
+                                             'address': supplier[5], 'website': supplier[6],
+                                             'credit_limit': supplier[8], 'account_balance': supplier[9]})
                 return better_suppliers
 
     @classmethod
@@ -48,19 +53,18 @@ class Supplier:
         """This module will save a new user to the database"""
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute(
-                'INSERT INTO suppliers(name, contact_person, contact_number, contact_email, address, website, enable) '
-                'VALUES(%s, %s, %s, %s, %s, %s, %s)',
-                (name, contact_person, contact_number, contact_email, address, website, 'y'))
+                'INSERT INTO suppliers(name, contact_person, contact_number, contact_email, address, website, enable, credit_limit, account_balance) '
+                'VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                (name, contact_person, contact_number, contact_email, address, website, 'y', 0, 0))
 
     @classmethod
     def update_details(cls, data):
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute(
                 'UPDATE suppliers SET name=%s, contact_person=%s, contact_number=%s, contact_email=%s, address=%s, '
-                'website=%s WHERE _id=%s',
+                'website=%s, credit_limit=%s WHERE _id=%s',
                 (data['name'], data['contact_person'], data['contact_number'], data['contact_email'], data['address'],
-                 data['website'],
-                 data['id']))
+                 data['website'], data['credit_limit'], data['id']))
             return True
 
     @classmethod

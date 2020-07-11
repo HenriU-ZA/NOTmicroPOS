@@ -99,6 +99,7 @@
             <th>Website<p>Email</p></th>
             <th>Contact Person<p>Tel</p></th>
             <th>Address</th>
+            <th>Account Balance<p>Credit Limit</p></th>
             <th>Update</th>
             <th>Remove</th>
           </tr>
@@ -112,6 +113,7 @@
             <td>
               <pre>{{supplier['address']}}</pre>
             </td>
+            <td>{{supplier['account_balance']}}<p>{{supplier['credit_limit']}}</p></td>
             <td>
               <form action="suppliers" method="post">
                 <input type="hidden" value="update" name="todo"/>
@@ -162,6 +164,7 @@
           <input type="text" name="website" required value="{{for_display[3].website}}"/>
         </div>
         <div class="col-6 col-12-xsmall">
+          Credit Limit: <input type="number" step="0.01" min="0" name="credit_limit" required value="{{for_display[3].credit_limit}}"/>
 
 
         </div>

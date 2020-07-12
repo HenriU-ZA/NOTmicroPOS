@@ -140,3 +140,12 @@ def view_stock_page_formats(data):
     elif data['todo'] == 'enable':
         return [data['todo'], 'This item has been enabled', stockbook.toggle_item('y', data['item_id'])]
 
+    elif data['todo'] == 'update':
+        stockq = refactor.ammend_stock(stockbook.get_one_stock_item(data['item_id']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+
+        return [data['todo'], 'Edit the details below', stockq]
+
+    elif data['todo'] == 'update_go':
+        return [data['todo'], 'Update Complete', stockbook.update_item(data)]
+
+

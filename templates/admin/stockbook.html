@@ -81,6 +81,7 @@
             <th>Category</th>
             <th>Supplier</th>
             <th>Deactivate</th>
+            <th>Update</th>
           </tr>
           </thead>
           <tbody>
@@ -100,7 +101,14 @@
                 <input type="hidden" value="{{item['stock_qty']}}" name="c1"/>
                 <input type="hidden" value="{{item['order_qty']}}" name="c2"/>
                 <input type="hidden" value="{{item['pending_qty']}}" name="c3"/>
-                <input type="submit" value="X " class="icon brands style1"/>
+                <input type="submit" value="X" class="icon brands style1"/>
+              </form>
+            </td>
+            <td>
+              <form action="stockbook" method="post">
+                <input type="hidden" value="update" name="todo"/>
+                <input type="hidden" value="{{item['id']}}" name="item_id"/>
+                <input type="submit" value="U" class="icon brands style1"/>
               </form>
             </td>
           </tr>
@@ -162,6 +170,58 @@
   </div>
   <!-- Actions the enable/disable stock items -->
   {% elif for_display[0] == 'disable' or for_display[0] == 'enable' %}
+  <div class="inner">
+    <section>
+      <h4>{{for_display[1]}}</h4>
+    </section>
+  </div>
+  <!-- Form to update a stock item -->
+  {% elif for_display[0] == 'update' %}
+  <div class="inner">
+    <section>
+      <h4>{{for_display[1]}}</h4>
+      <form method="post" action="stockbook">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="text" name="item_name" value="{{for_display[2][0]['item_name']}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>The item should be easily identified by the item name.</p>
+          </div>
+        </div>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="number" step="0.01" min="0" name="labour_charge" value="{{for_display[2][0]['labour_charge']}}"
+                   required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>The amount of labour to be added for this item.</p>
+          </div>
+        </div>
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="number" step="0.01" min="0" name="rrp" value="{{for_display[2][0]['retail_price']}}" required/>
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <p>The total selling price of this item.</p>
+          </div>
+        </div>
+        <div class="col-12">
+          <input type="hidden" value="update_go" name="todo"/>
+          <input type="hidden" value="{{for_display[2][0]['id']}}" name="item_id"/>
+          <ul class="actions">
+            <li><input type="submit" value="Update Item" class="primary"/></li>
+            <li><input type="reset" value="Reset Form" class="primary"/></li>
+            <li><a href="{{url_for('stockbook')}}" class="button primary">Cancel</a></li>
+          </ul>
+        </div>
+
+      </form>
+
+    </section>
+  </div>
+  <!-- Actions the update -->
+  {% elif for_display[0] == 'update_go' %}
   <div class="inner">
     <section>
       <h4>{{for_display[1]}}</h4>

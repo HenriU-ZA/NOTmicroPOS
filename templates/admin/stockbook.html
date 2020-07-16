@@ -82,6 +82,7 @@
             <th>Supplier</th>
             <th>Deactivate</th>
             <th>Update</th>
+            <th>Order</th>
           </tr>
           </thead>
           <tbody>
@@ -109,6 +110,13 @@
                 <input type="hidden" value="update" name="todo"/>
                 <input type="hidden" value="{{item['id']}}" name="item_id"/>
                 <input type="submit" value="U" class="icon brands style1"/>
+              </form>
+            </td>
+            <td>
+              <form action="purchase_order" method="post">
+                <input type="hidden" value="add_to_order" name="todo"/>
+                <input type="hidden" value="{{item['id']}}" name="item_id"/>
+                <input type="submit" value="A" class="icon brands style1"/>
               </form>
             </td>
           </tr>

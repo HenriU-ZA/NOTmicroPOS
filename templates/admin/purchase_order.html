@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% if for_display[0] == 'add_to_order' %}
+<div class="inner">
+  <section>
+    <h4>{{for_display[1][0]['item_name']}}</h4>
+    <p>How many do you need:</p>
+    <form method="post" action="purchase_order">
+
+      <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+          <input type="number" step="1" min="1" name="qty" value="1" required/>
+        </div>
+        <div class="col-6 col-12-xsmall">
+        </div>
+      </div>
+      <br>
+      <div class="col-12">
+        <input type="hidden" value="add_item_go" name="todo"/>
+        <input type="hidden" value="{{for_display[1][0]['id']}}" name="item_id"/>
+        <ul class="actions">
+          <li><input type="submit" value="Add Item To Order" class="primary"/></li>
+          <li><a href="{{url_for('purchase_order')}}" class="button primary">Cancel</a></li>
+        </ul>
+      </div>
+
+    </form>
+  </section>
+</div>
+{% elif for_display[0] == 'add_item_go' %}
+  <section>
+    <h4>{{for_display[1]}}</h4>
+  </section>
+{% endif %}
+{% endblock %}

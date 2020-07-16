@@ -1,4 +1,5 @@
 from pyscripts.user import User
+import pyscripts.purchase_order as po
 import pyscripts.stock_setup as stock_setup
 import pyscripts.stockbook as stockbook
 from pyscripts.suppliers import Supplier
@@ -73,6 +74,16 @@ def dashboard_page_formats(data):
         return [data['todo'], message,
                 'I have changed my password.',
                 'Changed my password']
+
+
+def purchase_order_page_formats(data):
+    if data['todo'] == 'add_to_order':
+        stockq = refactor.ammend_stock(stockbook.get_one_stock_item(data['item_id']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+        return [data['todo'], stockq]
+
+    elif data['todo'] == 'add_item_go':
+        stockq = refactor.ammend_stock(stockbook.get_one_stock_item(data['item_id']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
+        return [data['todo'], po.add_item_to_order(stockq, data['qty'])]
 
 
 def suppliers_page_formats(data):

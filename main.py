@@ -64,6 +64,18 @@ def dashboard():
     return redirect(url_for('login'))
 
 
+@app.route('/purchase_order', methods=['GET', 'POST'])
+def purchase_order():
+    if g.user:
+        for_display = None
+        if request.method == 'POST':
+            for_display = pageformats.purchase_order_page_formats(request.form)
+        return render_template('admin/purchase_order.html',
+                               pg_data=FunctionData.format_page_data('purchase_order', g.user.name),
+                               for_display=for_display)
+    return redirect(url_for('login'))
+
+
 @app.route('/stockbook', methods=['GET', 'POST'])
 def stockbook():
     if g.user:

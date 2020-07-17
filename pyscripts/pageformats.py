@@ -83,7 +83,8 @@ def purchase_order_page_formats(data):
 
     elif data['todo'] == 'add_item_go':
         stockq = refactor.ammend_stock(stockbook.get_one_stock_item(data['item_id']), stockbook.retrieve_supplier_names(), stockbook.retrieve_category_names())
-        return [data['todo'], po.add_item_to_order(stockq, data['qty'])]
+        add_item = po.add_item_to_order(stockq, data['qty'])
+        return [data['todo'], add_item, po.build_order_items(add_item['order_id'])]
 
 
 def suppliers_page_formats(data):
